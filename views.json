@@ -1,0 +1,97 @@
+{
+    "vistas": [
+        {
+            "nombre_vista": "vdim_customers",
+            "columnas": [
+                "customer_id",
+                "company_name",
+                "contact_name",
+                "contry"
+            ],
+            "data": [
+                {
+                    "tabla": "cliente",
+                    "columnas": {
+                        "customer_id": "CAST(CODIGO_CLIENTE AS VARCHAR(10))",
+                        "company_name": "NOMBRE_CLIENTE",
+                        "contact_name": "",
+                        "contry": "upper(CASE WHEN pais = 'UK' THEN 'United Kingdom' ELSE pais END)"
+                    }
+                },
+                {
+                    "tabla": "CUSTOMERS",
+                    "columnas": {
+                        "customer_id": "CUSTOMERID",
+                        "company_name": "CompanyName",
+                        "contact_name": "",
+                        "contry": "upper(CASE WHEN country = 'UK' THEN 'United Kingdom' ELSE country END)"
+                    }
+                }
+            ]
+        },
+        {
+            "nombre_vista": "vdim_employees",
+            "columnas": [
+                "employee_id",
+                "first_name",
+                "last_name",
+                "title"
+            ],
+            "data": [
+                {
+                    "tabla": "EMPLOYEE",
+                    "columnas": {
+                        "employee_id": "",
+                        "first_name": "",
+                        "last_name": "",
+                        "title": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombre_vista": "vdim_products",
+            "columnas": [
+                "product_id",
+                "product_name",
+                "category_id",
+                "unit_price"
+            ],
+            "data": [
+                {
+                    "tabla": "PRODUCT",
+                    "columnas": {
+                        "product_id": "",
+                        "product_name": "",
+                        "category_id": "",
+                        "unit_price": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombre_vista": "vdim_dates",
+            "columnas": [
+                "date_key",
+                "day",
+                "month",
+                "quarter",
+                "year",
+                "day_of_week"
+            ],
+            "data": [
+                {
+                    "tabla": "",
+                    "columnas": {
+                        "date_key": "",
+                        "day": "",
+                        "month": "",
+                        "quarter": "",
+                        "year": "",
+                        "day_of_week": ""
+                    }
+                }
+            ]
+        }
+    ]
+}
