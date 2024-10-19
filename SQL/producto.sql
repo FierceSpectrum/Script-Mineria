@@ -1,4 +1,4 @@
-CREATE OR ALTER VIEW PRODUCT AS
+CREATE OR ALTER VIEW dim_products AS
 SELECT
    [product_id],
     upper(product_name)as[product_name],
@@ -19,4 +19,5 @@ FROM
         SELECT cast(ProductID as varchar(10)) ,ProductName,CategoryName,UnitPrice  from dbo.PRODUCTS as p
         JOIN dbo.CATEGORIES as c  ON p.CategoryID = c.CategoryID 
      ) as d;
-    
+
+SELECT * FROM dim_products;

@@ -16,8 +16,8 @@ CREATE TABLE dim_employees (
 -- Create view to add data in the dimension "dim_employees"
 
 -- CREATE VIEW vdim_employees AS
-ALTER VIEW vdim_employees AS
-SELECT 
+CREATE OR ALTER VIEW dim_employees AS
+SELECT
 	[employee_id],
 	[full_name],
 	[title],
@@ -51,3 +51,5 @@ FROM (
 	FROM EMPLOYEES E
 	LEFT JOIN EMPLOYEES B ON E.ReportsTo = B.EmployeeID
 ) AS EMPLOYEES_DATA;
+
+SELECT * FROM dim_employees;
