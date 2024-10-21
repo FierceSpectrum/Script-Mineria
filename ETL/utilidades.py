@@ -1,13 +1,15 @@
 import pandas as pd
 import conexion as conn
 
+from translate import Translator
+translator = Translator(from_lang="es", to_lang="en")
+
 oradbconn = conn.ora_conndb()
 target_conn = conn.mssql_conndb(method=1)
 target_conn2 = conn.mssql_conndb(DB_DATABASE='DB_DATABASE2')
 
 
 # Mio
-
 
 def convert_data_as_dataframe(data, table_name):
     _, column_names = table_attributes(table_name)
@@ -194,6 +196,9 @@ def execute_sql_view(sql_query, connection=target_conn):
         if cursor:
             cursor.close()
 
+def translate_phrase(frase):
+    traduccion = translator.translate(frase)
+    return traduccion
 
 # Profe
 
