@@ -1,7 +1,7 @@
 -- Create dimension
 CREATE TABLE dim_employees (
     employee_key INT IDENTITY(1,1) CONSTRAINT pk_employees PRIMARY KEY,
-    employee_id INT,
+    employee_id nvarchar(10),
     full_name NVARCHAR(80),
     title NVARCHAR(100),
     -- hire_date DATE,
@@ -15,25 +15,27 @@ CREATE TABLE dim_employees (
 
 -- Create view to add data in the dimension "dim_employees"
 
--- CREATE VIEW vdim_employees AS
-CREATE OR ALTER VIEW dim_employees AS
-SELECT
+CREATE OR ALTER VIEW vdim_employees AS
+SELECT 
 	[employee_id],
 	[full_name],
 	[title],
 	[city],
-	[region],
 	[country],
 	[reports_to]
 FROM (
 	SELECT 
-		EM.CODIGO_EMPLEADO AS EMPLOYEE_ID, 
+		CAST(EM.CODIGO_EMPLEADO AS NVARCHAR(10)) AS EMPLOYEE_ID, 
 		EM.NOMBRE + ' ' + EM.APELLIDO1 AS FULL_NAME, 
 		EM.PUESTO AS TITLE, 
-		O.CIUDAD AS CITY, 
-		O.REGION AS REGION, 
-		O.PAIS AS COUNTRY, 
-		J.NOMBRE + ' ' + J.APELLIDO1 AS REPORTS_TO
+		UPPER(O.CIUDAD) AS CITY,
+		UPPER(
+			CASE 
+				WHEN O.PAIS = 'EEUU' THEN 'ESTADOS UNIDOS'
+			ELSE O.PAIS
+			END
+		) AS COUNTRY, 
+		ISNULL(J.NOMBRE + ' ' + J.APELLIDO1, 'COMITE GERENCIAL') AS REPORTS_TO
 	FROM EMPLEADO EM
 	LEFT JOIN OFICINA O ON EM.CODIGO_OFICINA = O.CODIGO_OFICINA
 	LEFT JOIN EMPLEADO J ON EM.CODIGO_JEFE = J.CODIGO_EMPLEADO
@@ -44,12 +46,16 @@ FROM (
 		E.EmployeeID AS EMPLOYEE_ID, 
 		E.FirstName + ' ' + E.LastName AS FULL_NAME, 
 		E.Title AS TITLE, 
-		E.City AS CITY, 
-		E.Region AS REGION, 
-		E.Country AS COUNTRY, 
-		B.FirstName + ' ' + B.LastName AS REPORTS_TO
+		UPPER(E.City) AS CITY,
+		UPPER(
+			CASE 
+				WHEN E.Country = 'USA' THEN 'UNITED STATES'
+				WHEN E.Country = 'EEUU' THEN 'ESTADOS UNIDOS'
+				WHEN E.Country = 'UK' THEN 'UNITED KINGDOM'
+			ELSE E.Country
+			END
+		) AS COUNTRY,  
+		ISNULL(B.FirstName + ' ' + B.LastName, 'COMITE GERENCIAL') AS REPORTS_TO
 	FROM EMPLOYEES E
 	LEFT JOIN EMPLOYEES B ON E.ReportsTo = B.EmployeeID
 ) AS EMPLOYEES_DATA;
-
-SELECT * FROM dim_employees;
