@@ -1,11 +1,4 @@
-import json
 import utilidades as utl
-
-
-def read_json(rute="views.json"):
-    with open(rute, 'r') as file:
-        data = json.load(file)
-    return data
 
 
 def crear_vistas(json_data, connection=utl.target_conn):
@@ -38,7 +31,7 @@ def crear_vistas(json_data, connection=utl.target_conn):
 
 
 # Leer archivo JSON
-datos = read_json()
+datos = utl.read_json()
 
 # Crear las vistas
 crear_vistas(datos)

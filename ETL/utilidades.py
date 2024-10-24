@@ -1,8 +1,9 @@
 import pandas as pd
 import conexion as conn
+import json
 
 from translate import Translator
-translator = Translator(from_lang="es", to_lang="en")
+translator = Translator(from_lang="en", to_lang="es")
 
 oradbconn = conn.ora_conndb()
 target_conn = conn.mssql_conndb(method=1)
@@ -10,6 +11,11 @@ target_conn2 = conn.mssql_conndb(DB_DATABASE='DB_DATABASE2')
 
 
 # Mio
+
+def read_json(rute="c:/ETLS/Script-Mineria/ETL/views.json"):
+    with open(rute, 'r') as file:
+        data = json.load(file)
+    return data
 
 def convert_data_as_dataframe(data, table_name):
     _, column_names = table_attributes(table_name)
