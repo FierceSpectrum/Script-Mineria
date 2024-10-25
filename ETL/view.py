@@ -29,6 +29,7 @@ def clear_views(connection=utl.target_conn):
             table_name, "dbo", "sqlserver", connection)
             if table_structure != table_structure2:
                 print(f"No se pudes insertar datos ya que la estructura de las tablas {name} y {table_name} no coisiden")
+                print("\n")
                 continue
             
 
