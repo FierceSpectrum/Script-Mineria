@@ -3,8 +3,8 @@ import utilidades as utl
 
 def clear_views(connection=utl.target_conn):
     """Limpia y transforma los datos de las tablas de acuerdo al archivo JSON."""
-    datos = utl.read_json(r'c:/ETLS/Script-Mineria/ETL/tables.json')
-    tablas = datos["tables"]
+    datos = utl.read_json(r'c:/ETLS/Script-Mineria/ETL/views.json')
+    tablas = datos["views"]
 
     for tabla in tablas:
         name = tabla['name'].upper()
@@ -28,7 +28,7 @@ def clear_views(connection=utl.target_conn):
             table_structure2 = utl.get_table_structure(
             table_name, "dbo", "sqlserver", connection)
             if table_structure != table_structure2:
-                print("No se pudes insertar datos ya que la estructura de las tablas no coisiden")
+                print(f"No se pudes insertar datos ya que la estructura de las tablas {name} y {table_name} no coisiden")
                 continue
             
 

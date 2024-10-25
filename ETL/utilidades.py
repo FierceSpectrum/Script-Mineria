@@ -8,6 +8,7 @@ translator = Translator(from_lang="en", to_lang="es")
 oradbconn = conn.ora_conndb()
 target_conn = conn.mssql_conndb(method=1)
 target_conn2 = conn.mssql_conndb(DB_DATABASE='DB_DATABASE2')
+target_conn3 = conn.mssql_conndb(DB_DATABASE='DB_DATABASE3')
 
 
 # Mio
@@ -134,7 +135,7 @@ def convert_data_type(data_type, db_type):
     return data_type
 
 
-def create_table(table_name, owner, table_structure, db_type="sqlserver", connection=target_conn):
+def create_table(table_name, owner, table_structure, db_type="sqlserver", connection=target_conn, autoincrementalid=False):
     cursor = connection.cursor()
     try:
         # Contruir la consulta CREATE TABLE
@@ -145,6 +146,10 @@ def create_table(table_name, owner, table_structure, db_type="sqlserver", connec
             converted_type = convert_data_type(data_type, db_type)
             column_definitions.append(f"{column_name} {converted_type}")
 
+        if autoincrementalid:
+            name = table_name.split("_")[1]
+            column_definitions.insert(0, f"{name}_KEY INT IDENTITY(1,1) CONSTRAINT PK_{name} PRIMARY KEY")    
+        
         create_query += ", ".join(column_definitions) + ")"
         cursor.execute(create_query)
         connection.commit()
