@@ -1,22 +1,35 @@
 -- Active: 1726878131637@@127.0.0.1@1433@staging
-CREATE OR ALTER VIEW dim_employes AS
-SELECT 
-    [Codigo_Cliente],
-    [Nombre_Empresa],
-    [Nombre_Contacto],
-    [Pais]
+CREATE OR ALTER VIEW dim_customers AS
+SELECT
+    [Customer_ID],
+    [Company_Name],
+    [Contact_Name],
+    [Country],
+    [DB_Origin]
 FROM (
-    SELECT CustomerID AS Codigo_Cliente, 
-    CompanyName AS Nombre_Empresa, 
-    ContactName AS Nombre_Contacto, 
-    Country AS Pais
+    SELECT
+        CustomerID AS Customer_ID,
+        CompanyName AS Company_Name,
+        ContactName AS Contact_Name,
+        CASE Country
+            WHEN 'USA' THEN 'Estados Unidos'
+            WHEN 'UK' THEN 'Reino Unido'
+            ELSE Country
+        END AS Country,
+        'Northwind' AS DB_ORIGIN
     FROM Customers
+    
     UNION
-    SELECT CAST(CODIGO_CLIENTE AS varchar(10)) AS Codigo_Cliente, 
-    NOMBRE_CLIENTE AS Nombre_Empresa, 
-    NOMBRE_CONTACTO AS Nombre_Contacto, 
-    PAIS AS Pais
-    FROM Cliente
-) AS V;
-
-SELECT * FROM dim_employes;
+    
+    SELECT
+        CAST(CODIGO_CLIENTE AS varchar(10)) AS Customer_ID,
+        NOMBRE_CLIENTE AS Company_Name,
+        NOMBRE_CONTACTO AS Contact_Name,
+        CASE PAIS
+            WHEN 'USA' THEN 'Estados Unidos'
+            ELSE PAIS  
+        END AS Country,
+        'Jardineria' AS DB_Origin  
+    FROM Clientes
+  ) AS C;
+SELECT * FROM dim_customers;
