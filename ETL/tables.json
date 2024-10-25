@@ -3,7 +3,7 @@
         {
             "name": "dim_employees",
             "query": "SELECT EM.CODIGO_EMPLEADO AS EMPLOYEE_ID, EM.NOMBRE + ' ' + EM.APELLIDO1 AS FULL_NAME, EM.PUESTO AS TITLE, O.CIUDAD AS CITY, O.REGION AS REGION, O.PAIS AS COUNTRY, ISNULL(J.NOMBRE + ' ' + J.APELLIDO1, 'COMITE GERENCIAL') AS REPORTS_TO FROM EMPLEADO EM LEFT JOIN OFICINA O ON EM.CODIGO_OFICINA = O.CODIGO_OFICINA LEFT JOIN EMPLEADO J ON EM.CODIGO_JEFE = J.CODIGO_EMPLEADO UNION SELECT E.EmployeeID AS EMPLOYEE_ID, E.FirstName + ' ' + E.LastName AS FULL_NAME, E.Title AS TITLE, E.City AS CITY, E.Region AS REGION, E.Country AS COUNTRY, ISNULL(B.FirstName + ' ' + B.LastName, 'COMITE GERENCIAL') AS REPORTS_TO FROM EMPLOYEES E LEFT JOIN EMPLOYEES B ON E.ReportsTo = B.EmployeeID",
-            "columnas_traductor": [
+            "translate": [
                 "title",
                 "country"
             ],

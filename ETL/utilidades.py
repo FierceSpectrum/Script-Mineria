@@ -17,6 +17,7 @@ def read_json(rute="c:/ETLS/Script-Mineria/ETL/views.json"):
         data = json.load(file)
     return data
 
+
 def convert_data_as_dataframe(data, table_name):
     _, column_names = table_attributes(table_name)
     if data and column_names:
@@ -202,11 +203,99 @@ def execute_sql_view(sql_query, connection=target_conn):
         if cursor:
             cursor.close()
 
+
 def translate_phrase(frase):
     traduccion = translator.translate(frase)
     return traduccion
 
+
+def data_transform(data, columns, table_structure, transform_func):
+    """Aplica una transformación a las columnas especificadas."""
+    positions = [table_structure.index(col)
+                 for col in columns if col in table_structure]
+    for file in data:
+        for pos in positions:
+            if file[pos]:
+                file[pos] = transform_func(file[pos])
+    return data
+
+
+def dividir_lista_en_sublistas(lista, y):
+    """Divide las listas en sublistas."""
+    return [lista[i:i + y] for i in range(0, len(lista), y)]
+
+
+def eliminar_duplicados(lista):
+    """Elimina duplicados de una lista manteniendo el orden."""
+    seen = set()
+    return [item for item in lista if not (item in seen or seen.add(item))]
+
+
+def data_translate(data, columns, table_structure):
+    """Traduce los datos en las columnas especificadas."""
+
+    positions = [table_structure.index(col)
+                 for col in columns if col in table_structure]
+
+    datos_a_traducir = {file[pos]
+                        for file in data for pos in positions if file[pos]}
+    datos_sin_duplicados = eliminar_duplicados(list(datos_a_traducir))
+
+    # Divide en sublistas de tamaño 10
+    sublistas = dividir_lista_en_sublistas(datos_sin_duplicados, 10)
+
+    # Traducir los datos
+    sublistas_traducidas = [translate_phrase(
+        ", ".join(sublista)).split(", ") for sublista in sublistas]
+
+    # Unir las sublistas traducidas
+    traducciones = sum(sublistas_traducidas, [])
+
+    # Reemplazar los datos en las posiciones correspondientes
+    for file in data:
+        for pos in positions:
+            valor = file[pos]
+            if valor:
+                file[pos] = traducciones[datos_sin_duplicados.index(valor)]
+    return data
+
+
+def clear_data_sql(tabla, table_structure, connection=target_conn):
+    """Limpia y transforma los datos de la tabla."""
+
+    name = tabla['name']
+    datos = execute_sql_query(tabla["query"])
+
+    if not datos:
+        print(f"Error obteniendo datos de la tabla {name}")
+        return
+
+    list_column_table = [col for col, _ in table_structure]
+
+    # Transformar datos según las columnas configuradas
+    if "country" in tabla:
+        datos = data_transform(datos, [col.upper() for col in tabla["country"] if col], list_column_table, lambda x: read_json(
+            r'c:/ETLS/Script-Mineria/ETL/countrys.json').get(x, x))
+
+    if "upper" in tabla:
+        datos = data_transform(
+            datos, [col.upper() for col in tabla["upper"] if col], list_column_table, str.upper)
+
+    if "translate" in tabla:
+        datos = data_translate(
+            datos, [col.upper() for col in tabla["translate"] if col], list_column_table)
+
+    return datos
+
+
 # Profe
+
+def check_tables(tables):
+    """Revisa si se encontraron tablas válidas."""
+    if not isinstance(tables, list) or len(tables) == 0:
+        print("No se encontraron tablas o el valor no es válido.")
+        exit()
+    print(f"Tablas encontradas: {tables}")
 
 
 def check_lengths(dataframe, max_length, limit=10):
