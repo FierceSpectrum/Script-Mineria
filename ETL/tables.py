@@ -7,8 +7,8 @@ def clear_views(connection=utl.target_conn):
     tablas = datos["tables"]
 
     for tabla in tablas:
-        name = tabla['name']
-        table_name = f"clear_{name}"
+        name = tabla['name'].upper()
+        table_name = f"CLEAR_{name}"
         datos = utl.execute_sql_query(tabla["query"])
 
         exists = utl.table_exists(name, "dbo")
@@ -21,9 +21,16 @@ def clear_views(connection=utl.target_conn):
             name, "dbo", "sqlserver", connection)
 
         exists = utl.table_exists(table_name, "dbo")
-        if (not exists):
+        if not exists:
             utl.create_table(table_name, "dbo", table_structure)
             exists = utl.table_exists(table_name, "dbo")
+        else:
+            table_structure2 = utl.get_table_structure(
+            table_name, "dbo", "sqlserver", connection)
+            if table_structure != table_structure2:
+                print("No se pudes insertar datos ya que la estructura de las tablas no coisiden")
+                continue
+            
 
         datos = utl.clear_data_sql(tabla, table_structure, connection)
 

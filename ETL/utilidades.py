@@ -88,10 +88,10 @@ def get_table_structure(table_name, owner, db_type="oracle", connection=oradbcon
         # Preparar el resultado con columnas, tipos y longitudes
         table_structure = []
         for column_name, data_type, data_length, data_presicion in columns:
-            if data_type in ["VARCHAR2", "CHAR", "nvarchar", "nchar"]:
+            if data_type.lower() in ["varchar2", "char", "nvarchar", "nchar", "varchar"]:
                 table_structure.append(
                     (column_name, f"{data_type}({data_length})"))
-            elif data_type in ["NUMBER"]:
+            elif data_type.lower() in ["number"]:
                 table_structure.append(
                     (column_name, f"{data_type}({data_presicion})"))
             else:
