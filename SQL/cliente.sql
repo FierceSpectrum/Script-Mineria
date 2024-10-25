@@ -16,7 +16,7 @@ FROM (
             WHEN 'UK' THEN 'Reino Unido'
             ELSE Country
         END AS Country,
-        'Northwind' AS DB_ORIGIN
+        CAST('Northwind' AS NVARCHAR(10)) AS DB_ORIGIN
     FROM Customers
     
     UNION
