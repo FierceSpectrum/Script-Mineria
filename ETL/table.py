@@ -39,7 +39,8 @@ def migrate_view_to_table(connection=utl.target_conn):
             cant_columns = utl.count_columns(
                 vista, "sqlserver", connection_wh) -1
             utl.add_data_entity(datos, vista, cant_columns, connection_wh)
-        # print(datos)
+            
+        print("\n")
 
 
 migrate_view_to_table()
