@@ -19,14 +19,12 @@ def migrate_sql_to_sql(connection=utl.target_conn2):
         datos = utl.get_table_data('dbo', tabla, utl.target_conn2)
 
         if not exists:
-            table_structure = utl.get_table_structure(
-                tabla, "dbo", "sqlserver", utl.target_conn2)
+            table_structure = utl.get_table_structure(tabla, "dbo", "sqlserver", utl.target_conn2)
             utl.create_table(tabla, "dbo", table_structure)
             exists = utl.table_exists(tabla, "dbo")
         if datos and exists:
             utl.delete_data_entity(tabla, 'TRUNCATE')
-            cant_columns = utl.count_columns(
-                tabla, "sqlserver", utl.target_conn2)
+            cant_columns = utl.count_columns(tabla, "sqlserver", utl.target_conn2)
             utl.add_data_entity(datos, tabla, cant_columns)
         else:
             print(f"Error obteniendo datos de la tabla {tabla}")
@@ -55,6 +53,6 @@ def migrate_oracle_to_sql():
 
         print("\n")
 
-
-migrate_oracle_to_sql()
-migrate_sql_to_sql()
+if __name__ == "__main__":
+    migrate_oracle_to_sql()
+    migrate_sql_to_sql()

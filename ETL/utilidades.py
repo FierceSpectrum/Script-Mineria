@@ -91,12 +91,12 @@ def get_table_structure(table_name, owner, db_type="oracle", connection=oradbcon
         for column_name, data_type, data_length, data_presicion in columns:
             if data_type.lower() in ["varchar2", "char", "nvarchar", "nchar", "varchar"]:
                 table_structure.append(
-                    (column_name, f"{data_type}({data_length})"))
+                    (column_name.upper(), f"{data_type}({data_length})"))
             elif data_type.lower() in ["number"]:
                 table_structure.append(
-                    (column_name, f"{data_type}({data_presicion})"))
+                    (column_name.upper(), f"{data_type}({data_presicion})"))
             else:
-                table_structure.append((column_name, data_type))
+                table_structure.append((column_name.upper(), data_type))
 
         return table_structure
     except Exception as e:
@@ -148,8 +148,9 @@ def create_table(table_name, owner, table_structure, db_type="sqlserver", connec
 
         if autoincrementalid:
             name = table_name.split("_")[1]
-            column_definitions.insert(0, f"{name}_KEY INT IDENTITY(1,1) CONSTRAINT PK_{name} PRIMARY KEY")    
-        
+            column_definitions.insert(
+                0, f"{name}_KEY INT IDENTITY(1,1) CONSTRAINT PK_{name} PRIMARY KEY")
+
         create_query += ", ".join(column_definitions) + ")"
         cursor.execute(create_query)
         connection.commit()
@@ -282,13 +283,13 @@ def clear_data_sql(tabla, table_structure, connection=target_conn):
         datos = data_transform(datos, [col.upper() for col in tabla["country"] if col], list_column_table, lambda x: read_json(
             r'c:/ETLS/Script-Mineria/ETL/countrys.json').get(x, x))
 
-    if "upper" in tabla:
-        datos = data_transform(
-            datos, [col.upper() for col in tabla["upper"] if col], list_column_table, str.upper)
-
     if "translate" in tabla:
         datos = data_translate(
             datos, [col.upper() for col in tabla["translate"] if col], list_column_table)
+        
+    if "upper" in tabla:
+        datos = data_transform(
+            datos, [col.upper() for col in tabla["upper"] if col], list_column_table, str.upper)
 
     return datos
 

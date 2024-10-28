@@ -3,7 +3,10 @@
         {
             "name": "VDIM_EMPLOYEES",
             "query": "SELECT CAST(EM.CODIGO_EMPLEADO AS NVARCHAR(10)) AS EMPLOYEE_ID, EM.NOMBRE + ' ' + EM.APELLIDO1 AS FULL_NAME, EM.PUESTO AS TITLE, O.CIUDAD AS CITY, O.PAIS AS COUNTRY, ISNULL(J.NOMBRE + ' ' + J.APELLIDO1, 'COMITE GERENCIAL') AS REPORTS_TO, cast('JARDINERIA'as NVARCHAR(10)) AS DB_ORIGIN FROM EMPLEADO EM LEFT JOIN OFICINA O ON EM.CODIGO_OFICINA = O.CODIGO_OFICINA LEFT JOIN EMPLEADO J ON EM.CODIGO_JEFE = J.CODIGO_EMPLEADO UNION SELECT E.EMPLOYEEID AS EMPLOYEE_ID, E.FIRSTNAME + ' ' + E.LASTNAME AS FULL_NAME, E.TITLE AS TITLE, E.CITY AS CITY, E.COUNTRY AS COUNTRY, ISNULL(B.FIRSTNAME + ' ' + B.LASTNAME, 'COMITE GERENCIAL') AS REPORTS_TO, 'NORTHWIND' AS DB_ORIGIN FROM EMPLOYEES E LEFT JOIN EMPLOYEES B ON E.REPORTSTO = B.EMPLOYEEID",
-            "translate": [],
+            "translate": [
+                "title",
+                "country"
+            ],
             "country": [
                 "country"
             ],
@@ -20,8 +23,6 @@
         {
             "name": "VDIM_DATES",
             "query": "SELECT DISTINCT CASE SUBSTRING( CONVERT(VARCHAR(10), O.OrderDate, 23), 1, 4 ) WHEN '1996' THEN CONCAT( '2020-', SUBSTRING( CONVERT(VARCHAR(10), O.OrderDate, 23), 6, 5 ) ) WHEN '1997' THEN CONCAT( '2021-', SUBSTRING( CONVERT(VARCHAR(10), O.OrderDate, 23), 6, 5 ) ) WHEN '1998' THEN CONCAT( '2022-', SUBSTRING( CONVERT(VARCHAR(10), O.OrderDate, 23), 6, 5 ) ) ELSE SUBSTRING( CONVERT(VARCHAR(10), O.OrderDate, 23), 1, 4 ) END AS DATE, CASE YEAR(O.OrderDate) WHEN '1996' THEN '2020' WHEN '1997' THEN '2021' WHEN '1998' THEN '2022' ELSE YEAR(O.OrderDate) END AS YEAR, MONTH(O.OrderDate) AS MOUNTH, DAY(O.OrderDate) AS DAY, CASE WHEN MONTH(O.OrderDate) IN (1, 2, 3) THEN 1 WHEN MONTH(O.OrderDate) IN (4, 5, 6) THEN 2 WHEN MONTH(O.OrderDate) IN (7, 8, 9) THEN 3 ELSE 4 END AS FOUR_MONTH, CASE WHEN MONTH(O.OrderDate) IN (1, 2, 3, 4) THEN 1 WHEN MONTH(O.OrderDate) IN (5, 6, 7, 8) THEN 2 ELSE 3 END AS QUARTER, DATEPART(WEEK, O.OrderDate) AS WEEK, CASE DATEPART(WEEKDAY, O.OrderDate) WHEN 1 THEN 'Domingo' WHEN 2 THEN 'Lunes' WHEN 3 THEN 'Martes' WHEN 4 THEN 'Miercoles' WHEN 5 THEN 'Jueves' WHEN 6 THEN 'Viernes' WHEN 7 THEN 'Sabado' END AS WEEK_DAY, DATEPART(DAYOFYEAR, O.OrderDate) AS YEAR_DAY, CAST('NORTHWIND' AS NVARCHAR(10)) AS DB_ORIGIN FROM dbo.Orders AS O UNION SELECT DISTINCT CONVERT( VARCHAR(10), J.FECHA_PEDIDO, 23 ) AS DATE, YEAR(J.FECHA_PEDIDO) AS YEAR, MONTH(J.FECHA_PEDIDO) AS MOUNTH, DAY(J.FECHA_PEDIDO) AS DAY, CASE WHEN MONTH(J.FECHA_PEDIDO) IN (1, 2, 3) THEN 1 WHEN MONTH(J.FECHA_PEDIDO) IN (4, 5, 6) THEN 2 WHEN MONTH(J.FECHA_PEDIDO) IN (7, 8, 9) THEN 3 ELSE 4 END AS FOUR_MONTH, CASE WHEN MONTH(J.FECHA_PEDIDO) IN (1, 2, 3, 4) THEN 1 WHEN MONTH(J.FECHA_PEDIDO) IN (5, 6, 7, 8) THEN 2 ELSE 3 END AS QUARTER, DATEPART(WEEK, J.FECHA_PEDIDO) AS WEEK, CASE DATEPART(WEEKDAY, J.FECHA_PEDIDO) WHEN 1 THEN 'Domingo' WHEN 2 THEN 'Lunes' WHEN 3 THEN 'Martes' WHEN 4 THEN 'Miercoles' WHEN 5 THEN 'Jueves' WHEN 6 THEN 'Viernes' WHEN 7 THEN 'Sabado' END AS WEEK_DAY, DATEPART(DAYOFYEAR, J.FECHA_PEDIDO) AS YEAR_DAY, 'JARDINERIA' AS DB_ORIGIN FROM dbo.Pedido AS J",
-            "translate": [],
-            "country": [],
             "upper": [
                 "week_day",
                 "db_origin"
@@ -30,12 +31,30 @@
         {
             "name": "VDIM_PRODUCTS",
             "query": "SELECT CODIGO_PRODUCTO AS [PRODUCT_ID], NOMBRE AS [PRODUCT_NAME], GAMA AS [CATEGORY], TRY_CAST(PRECIO_VENTA AS DECIMAL(10,2)) AS [UNIT_PRICE], CAST(cantidad_en_STOCK AS VARCHAR(50)) AS [UNITS_IN_STOCK], CAST('Unidad unica' AS NVARCHAR(100)) AS [QUANTITY_PER_UNIT], cast('JARDINERIA' as nvarchar(10)) AS DB_ORIGIN FROM dbo.PRODUCTO UNION ALL SELECT CAST(ProductID AS VARCHAR(10)) AS [PRODUCT_ID], ProductName AS [PRODUCT_NAME], CategoryName AS [CATEGORY], TRY_CAST(UnitPrice AS DECIMAL(10,2)) AS [UNIT_PRICE], CAST(UnitsInStock AS VARCHAR(50)) AS [UNITS_IN_STOCK], QuantityPerUnit AS [QUANTITY_PER_UNIT],'NORTHWIND' AS DB_ORIGIN FROM dbo.PRODUCTS AS p JOIN dbo.CATEGORIES AS c ON p.CategoryID = c.CategoryID",
-            "translate": ["CATEGORY", "quantity_per_unit"],
-            "country": [],
+            "translate": [
+                "CATEGORY",
+                "quantity_per_unit"
+            ],
             "upper": [
                 "product_name",
                 "category",
                 "quantity_per_unit",
+                "db_origin"
+            ]
+        },
+        {
+            "name": "VDIM_CUSTOMERS",
+            "query": "SELECT CustomerID AS Customer_ID, CompanyName AS Company_Name, ContactName AS Contact_Name, Country AS Country, CAST('Northwind' AS NVARCHAR(10)) AS DB_ORIGIN FROM Customers UNION SELECT CAST(CODIGO_CLIENTE AS varchar(10)) AS Customer_ID, NOMBRE_CLIENTE AS Company_Name, NOMBRE_CONTACTO AS Contact_Name, PAIS AS Country, 'Jardineria' AS DB_Origin FROM Cliente",
+            "translate": [
+                "country"
+            ],
+            "country": [
+                "country"
+            ],
+            "upper": [
+                "company_name",
+                "contact_name",
+                "country",
                 "db_origin"
             ]
         }

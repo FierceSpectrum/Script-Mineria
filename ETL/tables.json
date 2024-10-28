@@ -1,10 +1,8 @@
 {
     "tables": [
-        "VDIM_EMPLOYEES", "VDIM_DATES"
-    ],
-    "tables2": [
-        {
-            "name": "VDIM_EMPLOYEES"
-        }
+        "VDIM_EMPLOYEES",
+        "VDIM_DATES",
+        "VDIM_PRODUCTS",
+        "VDIM_CUSTOMERS"
     ]
 }

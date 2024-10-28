@@ -9,14 +9,14 @@ def clear_views(connection=utl.target_conn):
     for tabla in tablas:
         name = tabla['name'].upper()
         table_name = f"CLEAR_{name}"
-        datos = utl.execute_sql_query(tabla["query"])
+        # datos = utl.execute_sql_query(tabla["query"])
 
         exists = utl.table_exists(name, "dbo")
         if not exists:
             view_query = f"CREATE OR ALTER VIEW {name} AS SELECT * FROM ({tabla['query']}) AS V;"
             utl.execute_sql_view(view_query)
             exists = utl.table_exists(name, "dbo")
-
+        
         table_structure = utl.get_table_structure(
             name, "dbo", "sqlserver", connection)
 
@@ -45,5 +45,5 @@ def clear_views(connection=utl.target_conn):
 
         print("\n")
 
-
-clear_views()
+if __name__ == "__main__":
+    clear_views()

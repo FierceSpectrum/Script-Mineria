@@ -26,8 +26,9 @@ def migrate_view_to_table(connection=utl.target_conn):
                 vista, "dbo", "sqlserver", connection)
             table_structure2 = utl.get_table_structure(
                 vista, "dbo", "sqlserver", connection_wh)
-            table_structure2.pop(0)
-            if table_structure != table_structure2:
+            table_structure2.pop(0) 
+            # if table_structure2[0][1] == "" else table_structure2
+            if table_structure != table_structure2: 
                 print(
                     f"No se pudes insertar datos ya que la estructura de las tablas {vista} no coisiden")
                 print(table_structure)
@@ -42,5 +43,5 @@ def migrate_view_to_table(connection=utl.target_conn):
             
         print("\n")
 
-
-migrate_view_to_table()
+if __name__ == "__main__":
+    migrate_view_to_table()
