@@ -294,6 +294,11 @@ def clear_data_sql(tabla, table_structure, connection=target_conn):
     return datos
 
 
+def create_reference_sql(table_name, column, table_reference, column_reference):
+    name_restriction = f"FK_{table_name.split("_")[1]}_{table_reference.split("_")[1]}"
+    script = f"ALTER TABLE {table_name} ADD CONSTRAINT {name_restriction} foreign key ({column}) references {table_reference}({column_reference})"
+    return script
+
 # Profe
 
 def check_tables(tables):

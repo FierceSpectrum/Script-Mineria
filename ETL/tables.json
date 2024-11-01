@@ -1,8 +1,26 @@
 {
     "tables": [
-        "VDIM_EMPLOYEES",
-        "VDIM_DATES",
-        "VDIM_PRODUCTS",
-        "VDIM_CUSTOMERS"
+        {
+            "name": "VDIM_EMPLOYEES"
+        },
+        {
+            "name": "VDIM_DATES"
+        },
+        {
+            "name": "VDIM_PRODUCTS"
+        },
+        {
+            "name": "VDIM_CUSTOMERS"
+        },
+        {
+            "name": "VDIM_CUSTOMERS",
+            "references": [
+                {
+                    "column": "cliente_key",
+                    "table_ref":"dim_cliente",
+                    "foreignKey" : "cliente_key"
+                }
+            ]
+        }
     ]
 }
