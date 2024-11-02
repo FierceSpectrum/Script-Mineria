@@ -189,7 +189,7 @@ def execute_sql_query(sql_query, connection=target_conn):
         return data
     except Exception as e:
         print(
-            f"Error al obtener datos de la tabla {sql_query.split('.')[1]}: {str(e)}")
+            f"Error al ejecutar la consulta {' '.join(sql_query.split(' ')[0:4])}... : {str(e)}")
     finally:
         if cursor:
             cursor.close()

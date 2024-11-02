@@ -13,12 +13,27 @@
             "name": "VDIM_CUSTOMERS"
         },
         {
-            "name": "VDIM_CUSTOMERS",
+            "name": "FACT_SALES",
             "references": [
                 {
-                    "column": "cliente_key",
-                    "table_ref":"dim_cliente",
-                    "foreignKey" : "cliente_key"
+                    "column": "EMPLOYEE_KEY",
+                    "table_ref":"VDIM_EMPLOYEES",
+                    "foreignKey" : "EMPLOYEE_KEY"
+                },
+                {
+                    "column": "DATE_KEY",
+                    "table_ref":"VDIM_DATES",
+                    "foreignKey" : "DATE_KEY"
+                },
+                {
+                    "column": "PRODUCTS_KEY",
+                    "table_ref":"VDIM_PRODUCTSS",
+                    "foreignKey" : "PRODUCTS_KEY"
+                },
+                {
+                    "column": "CUSTOMER_KEY",
+                    "table_ref":"VDIM_CUSTOMERS",
+                    "foreignKey" : "CUSTOMER_KEY"
                 }
             ]
         }

@@ -22,6 +22,13 @@ def migrate_view_to_table(connection=utl.target_conn):
                              connection=connection_wh, autoincrementalid=True)
             exists = utl.table_exists(name, 'dbo', connection=connection_wh)
 
+            if "references" in vista:
+                references_list = vista["references"]
+                for reference in references_list:
+                    reference_script = utl.create_reference_sql(
+                        name, reference["column"], reference["table_ref"], reference["foreignKey"])
+                    utl.execute_sql_query(reference_script)
+
         else:
             table_structure = utl.get_table_structure(
                 name, "dbo", "sqlserver", connection)
@@ -35,9 +42,6 @@ def migrate_view_to_table(connection=utl.target_conn):
                 print(table_structure)
                 print(table_structure2)
                 continue
-
-        if "references" in vista:
-            pass
 
         if datos and exists:
             utl.delete_data_entity(name, 'TRUNCATE', connection_wh)
