@@ -26,9 +26,9 @@
                     "foreignKey" : "DATE_KEY"
                 },
                 {
-                    "column": "PRODUCTS_KEY",
-                    "table_ref":"VDIM_PRODUCTSS",
-                    "foreignKey" : "PRODUCTS_KEY"
+                    "column": "PRODUCT_KEY",
+                    "table_ref":"VDIM_PRODUCTS",
+                    "foreignKey" : "PRODUCT_KEY"
                 },
                 {
                     "column": "CUSTOMER_KEY",

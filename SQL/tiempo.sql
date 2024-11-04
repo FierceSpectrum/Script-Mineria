@@ -1,7 +1,7 @@
 -- Active: 1728592622220@@127.0.0.1@1433@staging
 CREATE OR ALTER VIEW VDIM_DATES AS
 SELECT
-    [DATE],
+    [DATE_ID],
     [YEAR],
     [MOUNTH],
     [DAY],
@@ -34,7 +34,7 @@ FROM (
                 ELSE SUBSTRING(
                     CONVERT(VARCHAR(10), O.OrderDate, 23), 1, 4
                 )
-            END AS DATE, CASE YEAR(O.OrderDate)
+            END DATE_ID, CASE YEAR(O.OrderDate)
                 WHEN '1996' THEN '2020'
                 WHEN '1997' THEN '2021'
                 WHEN '1998' THEN '2022'
@@ -62,7 +62,7 @@ FROM (
         SELECT DISTINCT
             CONVERT(
                 VARCHAR(10), J.FECHA_PEDIDO, 23
-            ) AS DATE, YEAR(J.FECHA_PEDIDO) AS YEAR, MONTH(J.FECHA_PEDIDO) AS MOUNTH, DAY(J.FECHA_PEDIDO) AS DAY, CASE
+            ) DATE_ID, YEAR(J.FECHA_PEDIDO) AS YEAR, MONTH(J.FECHA_PEDIDO) AS MOUNTH, DAY(J.FECHA_PEDIDO) AS DAY, CASE
                 WHEN MONTH(J.FECHA_PEDIDO) IN (1, 2, 3) THEN 1
                 WHEN MONTH(J.FECHA_PEDIDO) IN (4, 5, 6) THEN 2
                 WHEN MONTH(J.FECHA_PEDIDO) IN (7, 8, 9) THEN 3

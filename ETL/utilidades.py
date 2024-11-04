@@ -148,6 +148,7 @@ def create_table(table_name, owner, table_structure, db_type="sqlserver", connec
 
         if autoincrementalid:
             name = table_name.split("_")[1]
+            name = name[:len(name)-1]
             column_definitions.insert(
                 0, f"{name}_KEY INT IDENTITY(1,1) CONSTRAINT PK_{name} PRIMARY KEY")
 
@@ -181,12 +182,25 @@ FROM (
     return sql
 
 
+def get_data_query(sql_query, connection=target_conn):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(sql_query)
+        # connection.commit()
+        data = cursor.fetchall()
+        return data
+    except Exception as e:
+        print(
+            f"Error al obtener datos de la tabla {sql_query.split('.')[1]}: {str(e)}")
+    finally:
+        if cursor:
+            cursor.close()
+
 def execute_sql_query(sql_query, connection=target_conn):
     cursor = connection.cursor()
     try:
         cursor.execute(sql_query)
-        data = cursor.fetchall()
-        return data
+        connection.commit()
     except Exception as e:
         print(
             f"Error al ejecutar la consulta {' '.join(sql_query.split(' ')[0:4])}... : {str(e)}")
@@ -270,7 +284,7 @@ def clear_data_sql(tabla, table_structure, connection=target_conn):
     """Limpia y transforma los datos de la tabla."""
 
     name = tabla['name']
-    datos = execute_sql_query(tabla["query"])
+    datos = get_data_query(tabla["query"])
 
     if not datos:
         print(f"Error obteniendo datos de la tabla {name}")
@@ -295,9 +309,15 @@ def clear_data_sql(tabla, table_structure, connection=target_conn):
 
 
 def create_reference_sql(table_name, column, table_reference, column_reference):
-    name_restriction = f"FK_{table_name.split("_")[1]}_{table_reference.split("_")[1]}"
+    name_restriction = f"FK_{table_name.split('_')[1]}_{table_reference.split('_')[1]}"
     script = f"ALTER TABLE {table_name} ADD CONSTRAINT {name_restriction} foreign key ({column}) references {table_reference}({column_reference})"
+    print(script)
     return script
+
+def chage_data_for_id(data, positition, ids):
+    for file in data:
+        file[positition] = ids[file[positition]]
+    return data
 
 # Profe
 
