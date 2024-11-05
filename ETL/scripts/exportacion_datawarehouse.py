@@ -1,23 +1,31 @@
-import utilidades as utl
+# exportacion_datawarehouse.py
+import sys
+sys.path.append("c:/ETLS/Script-Mineria/ETL")
 
 
-def migrate_view_to_table(connection=utl.target_conn):
-    connection_wh = utl.target_conn3
+from utilidades import analisis as anl, consultas as csl, formato as frt
+from utilidades import manejo_datos as mnd, relaciones as rlc, traducciones as tdc
+from conexiones.conexion_singleton import oradbconn, target_conn, target_conn2, target_conn3
+
+
+
+def migrate_view_to_table(connection=target_conn):
+    connection_wh = target_conn3
     # Leer archivo JSON
-    views = utl.read_json(r'c:/ETLS/Script-Mineria/ETL/tables.json')
+    views = frt.read_json(r'c:/ETLS/Script-Mineria/ETL/config/config_tablas.json')
 
     for vista in views['tables']:
         name = vista["name"]
-        exists = utl.table_exists(name, 'dbo')
+        exists = csl.table_exists(name, 'dbo')
         if not exists:
             print(f"No existe la vista {name}")
             continue
-        datos = utl.get_table_data('dbo', name, connection)
+        datos = csl.get_table_data('dbo', name, connection)
 
-        exists = utl.table_exists(name, 'dbo', connection=connection_wh)
+        exists = csl.table_exists(name, 'dbo', connection=connection_wh)
 
         if not exists:
-            table_structure = utl.get_table_structure(
+            table_structure = csl.get_table_structure(
                 name, "dbo", "sqlserver", connection)
 
             if "references" in vista:
@@ -28,15 +36,15 @@ def migrate_view_to_table(connection=utl.target_conn):
                         position = columns_table.index(column)
                         table_structure[position] = (column, "int")
 
-            utl.create_table(name, 'dbo', table_structure,
+            mnd.create_table(name, 'dbo', table_structure,
                              connection=connection_wh, autoincrementalid=True)
-            exists = utl.table_exists(name, 'dbo', connection=connection_wh)
+            exists = csl.table_exists(name, 'dbo', connection=connection_wh)
 
         elif "references" in vista:
             references = [ref["column"] for ref in vista["references"]]
-            table_structure = utl.get_table_structure(
+            table_structure = csl.get_table_structure(
                 name, "dbo", "sqlserver", connection)
-            table_structure2 = utl.get_table_structure(
+            table_structure2 = csl.get_table_structure(
                 name, "dbo", "sqlserver", connection_wh)
             table_structure2.pop(0)
             lista_dif = [colmn[0] for colmn in
@@ -51,9 +59,9 @@ def migrate_view_to_table(connection=utl.target_conn):
                 continue
 
         else:
-            table_structure = utl.get_table_structure(
+            table_structure = csl.get_table_structure(
                 name, "dbo", "sqlserver", connection)
-            table_structure2 = utl.get_table_structure(
+            table_structure2 = csl.get_table_structure(
                 name, "dbo", "sqlserver", connection_wh)
             table_structure2.pop(0)
             # if table_structure2[0][1] == "" else table_structure2
@@ -69,17 +77,17 @@ def migrate_view_to_table(connection=utl.target_conn):
 
                 for reference in vista["references"]:
 
-                    realationship = utl.has_foreign_key_relationship(
+                    realationship = rlc.has_foreign_key_relationship(
                         name, reference["table_ref"])
 
                     if not realationship:
-                        reference_script = utl.create_reference_sql(
+                        reference_script = rlc.create_reference_sql(
                             name, reference["column"], reference["table_ref"], reference["foreignKey"])
-                        utl.execute_sql_query(
+                        csl.execute_sql_query(
                             reference_script, connection=connection_wh)
 
                     consulta = f"SELECT {reference['foreignKey'].split('_')[0]}_ID, {reference['foreignKey']}, DB_ORIGIN FROM {reference['table_ref']}"
-                    ids = utl.get_data_query(consulta, connection_wh)
+                    ids = csl.get_data_query(consulta, connection_wh)
                     data_dict = {}
 
                     for key, value, origin in ids:
@@ -87,22 +95,24 @@ def migrate_view_to_table(connection=utl.target_conn):
                             data_dict[origin] = {}
                         data_dict[origin][key] = value
 
-                    structura = [coln for coln, _ in utl.get_table_structure(
+                    structura = [coln for coln, _ in csl.get_table_structure(
                         name, "dbo", "sqlserver", connection)]
                     column = reference["column"]
                     if column in structura:
                         posicion = structura.index(column)
-                        datos = utl.chage_data_for_id(
+                        datos = rlc.chage_data_for_id(
                             datos, posicion, data_dict)
-            relacion = utl.has_realtionship(name)
+                
+            relacion, realacion_tabla = rlc.has_realtionship(name)
             if relacion:
-                utl.delete_data_entity(name, 'DELETE', connection_wh)
+                csl.disable_restrictions(realacion_tabla)
+                mnd.delete_data_entity(name, 'DELETE', connection_wh)
             else:
-                utl.delete_data_entity(name, 'TRUNCATE', connection_wh)
-            cant_columns = utl.count_columns(
+                mnd.delete_data_entity(name, 'TRUNCATE', connection_wh)
+            cant_columns = csl.count_columns(
                 name, "sqlserver", connection_wh) - 1
-            utl.add_data_entity(datos, name, cant_columns, connection_wh)
-
+            mnd.add_data_entity(datos, name, cant_columns, connection_wh)
+            csl.enable_restrictions(name)
         print("\n")
 
 

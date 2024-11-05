@@ -1,7 +1,6 @@
-import datos as dt
-import view as vw
-import table as tb
-
+import scripts.extraccion_datos as dt
+import scripts.transformacion_vistas as vw
+import scripts.exportacion_datawarehouse as tb
 
 def menu_scripts():
     menu = """------ MENU ------
