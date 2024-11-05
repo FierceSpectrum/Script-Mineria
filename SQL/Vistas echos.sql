@@ -1,4 +1,4 @@
--- Active: 1728592622220@@127.0.0.1@1433@staging
+-- Active: 1726878131637@@127.0.0.1@1433@staging
 CREATE OR ALTER VIEW FACT_SALES AS
 SELECT [Venta_KEY]
 ,[PRODUCT_KEY]
@@ -15,23 +15,22 @@ SELECT
     CAST(OD.ProductID AS varchar(10)) AS PRODUCT_KEY,
     O.CustomerID AS CUSTOMER_KEY,
     O.EmployeeID AS EMPLOYEE_KEY,
-    CAST(O.OrderDate AS DATE) AS DATE_KEY,
+    CONVERT(VARCHAR(10), O.OrderDate, 23) AS DATE_KEY,
     OD.Quantity AS QUANTITY,
     OD.UnitPrice AS UNIT_PRICE,
     OD.Discount AS DISCOUNT,
-    'NORTHWIND' AS DB_ORIGIN
+    CAST('NORTHWIND' AS NVARCHAR(10)) AS DB_ORIGIN
 FROM
     dbo.[ORDER DETAILS] AS OD
 JOIN
     dbo.Orders AS O ON OD.OrderID = O.OrderID
-WHERE O.Estado != 'Cancelado'
 UNION
 SELECT
     J.CODIGO_PEDIDO AS Venta_KEY,
     DP.CODIGO_PRODUCTO AS PRODUCT_KEY,
     CAST(J.CODIGO_CLIENTE AS varchar(10)) AS CUSTOMER_KEY,
     C.CODIGO_EMPLEADO_REP_VENTAS AS EMPLOYEE_KEY,
-    CAST(J.FECHA_PEDIDO AS DATE) AS DATE_KEY,
+    CONVERT(VARCHAR(10), J.FECHA_PEDIDO, 23) AS DATE_KEY,
     DP.Cantidad AS QUANTITY,
     DP.PRECIO_UNIDAD AS UNIT_PRICE,
     0 AS DISCOUNT,
@@ -41,7 +40,7 @@ FROM
 JOIN
     dbo.Pedido AS J ON DP.CODIGO_PEDIDO = J.CODIGO_PEDIDO
 JOIN dbo.CLIENTE AS C ON J.CODIGO_CLIENTE = C.CODIGO_CLIENTE
-WHERE J.FECHA_PEDIDO != 'Cancelado'
+WHERE J.ESTADO != 'Rechazado'
 ) AS V;
 
 SELECT * FROM FACT_SALES;
@@ -74,4 +73,8 @@ FROM cliente as C
 inner join pedido as P on C.codigo_cliente = P.codigo_cliente
 inner join detalle_pedido as DP on P.codigo_pedido = DP.codigo_pedido
 where p.estado = 'Entregado'
-order by c.codigo_cliente
+order by c.codigo_cliente;
+
+
+SELECT OrderDate, RequiredDate, ShippedDate FROM ORDERS
+WHERE OrderDate IS null OR RequiredDate IS null OR ShippedDate IS null ;

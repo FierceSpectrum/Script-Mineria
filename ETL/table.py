@@ -56,20 +56,29 @@ def migrate_view_to_table(connection=utl.target_conn):
         if datos and exists:
             if "references" in vista:
                 for reference in vista["references"]:
-                    consulta = f"SELECT {reference['foreignKey']}, {reference['foreignKey'].split('_')[0]}_ID FROM {reference['table_ref']}"
+                    consulta = f"SELECT {reference['foreignKey']}, {reference['foreignKey'].split('_')[0]}_ID, DB_ORIGIN FROM {reference['table_ref']}"
                     ids = utl.get_data_query(consulta, connection_wh)
+
+                    data_dict = {}
+
+                    for key, value, origin in ids:
+                        if origin not in data_dict:
+                            data_dict[origin] = {}
+                        data_dict[origin][key] = value
+
                     structura = [coln for coln, _ in utl.get_table_structure(
                         name, "dbo", "sqlserver", connection)]
                     column = reference["column"]
                     if column in structura:
                         posicion = structura.index(column)
-                        datos = utl.chage_data_for_id(datos, posicion, dict(ids))
+                        datos = utl.chage_data_for_id(
+                            datos, posicion, data_dict)
                 print(datos)
 
-            # utl.delete_data_entity(name, 'TRUNCATE', connection_wh)
-            # cant_columns = utl.count_columns(
-            #     name, "sqlserver", connection_wh) - 1
-            # utl.add_data_entity(datos, name, cant_columns, connection_wh)
+            utl.delete_data_entity(name, 'TRUNCATE', connection_wh)
+            cant_columns = utl.count_columns(
+                name, "sqlserver", connection_wh) - 1
+            utl.add_data_entity(datos, name, cant_columns, connection_wh)
 
         print("\n")
 

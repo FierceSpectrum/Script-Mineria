@@ -186,12 +186,11 @@ def get_data_query(sql_query, connection=target_conn):
     cursor = connection.cursor()
     try:
         cursor.execute(sql_query)
-        # connection.commit()
         data = cursor.fetchall()
         return data
     except Exception as e:
         print(
-            f"Error al obtener datos de la tabla {sql_query.split('.')[1]}: {str(e)}")
+            f"Error al obtener datos de la tabla {sql_query.split('FROM')[1].split(' ')[0]}: {str(e)}")
     finally:
         if cursor:
             cursor.close()
@@ -315,8 +314,10 @@ def create_reference_sql(table_name, column, table_reference, column_reference):
     return script
 
 def chage_data_for_id(data, positition, ids):
+    position_db = len(data[0]) - 1
+
     for file in data:
-        file[positition] = ids[file[positition]]
+        file[positition] = ids[file[position_db]][file[positition]]
     return data
 
 # Profe
