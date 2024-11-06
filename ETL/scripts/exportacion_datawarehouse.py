@@ -85,23 +85,25 @@ def migrate_view_to_table(connection=target_conn):
                             name, reference["column"], reference["table_ref"], reference["foreignKey"])
                         csl.execute_sql_query(
                             reference_script, connection=connection_wh)
+                    if reference["table_ref"] != "VDIM_DATES":
+                        consulta = f"SELECT {reference['foreignKey'].split('_')[0]}_ID, {reference['foreignKey']}, DB_ORIGIN FROM {reference['table_ref']}"
+                        ids = csl.get_data_query(consulta, connection_wh)
+                        data_dict = {}
 
-                    consulta = f"SELECT {reference['foreignKey'].split('_')[0]}_ID, {reference['foreignKey']}, DB_ORIGIN FROM {reference['table_ref']}"
-                    ids = csl.get_data_query(consulta, connection_wh)
-                    data_dict = {}
+                        for key, value, origin in ids:
+                            if origin not in data_dict:
+                                data_dict[origin] = {}
+                            data_dict[origin][key] = value
 
-                    for key, value, origin in ids:
-                        if origin not in data_dict:
-                            data_dict[origin] = {}
-                        data_dict[origin][key] = value
-
-                    structura = [coln for coln, _ in csl.get_table_structure(
-                        name, "dbo", "sqlserver", connection)]
-                    column = reference["column"]
-                    if column in structura:
-                        posicion = structura.index(column)
-                        datos = rlc.chage_data_for_id(
-                            datos, posicion, data_dict)
+                        structura = [coln for coln, _ in csl.get_table_structure(
+                            name, "dbo", "sqlserver", connection)]
+                        column = reference["column"]
+                        if column in structura:
+                            posicion = structura.index(column)
+                            datos = rlc.chage_data_for_id(
+                                datos, posicion, data_dict)
+                    elif reference["table_ref"] == "VDIM_DATES":
+                        pass
                 
             relacion, realacion_tabla = rlc.has_realtionship(name)
             if relacion:
