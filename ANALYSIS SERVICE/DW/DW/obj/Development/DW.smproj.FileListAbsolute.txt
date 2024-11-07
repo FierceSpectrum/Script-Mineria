@@ -4,3 +4,9 @@ c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\bin\Model.deploymento
 c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\obj\Development\Model.asdatabase
 c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\obj\Development\Model.deploymentoptions
 c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\obj\Development\Model.deploymenttargets
+C:\ETLS\Script-Mineria\ANALYSIS SERVICE\DW\DW\bin\Model.asdatabase
+C:\ETLS\Script-Mineria\ANALYSIS SERVICE\DW\DW\bin\Model.deploymenttargets
+C:\ETLS\Script-Mineria\ANALYSIS SERVICE\DW\DW\bin\Model.deploymentoptions
+C:\ETLS\Script-Mineria\ANALYSIS SERVICE\DW\DW\obj\Development\Model.asdatabase
+C:\ETLS\Script-Mineria\ANALYSIS SERVICE\DW\DW\obj\Development\Model.deploymentoptions
+C:\ETLS\Script-Mineria\ANALYSIS SERVICE\DW\DW\obj\Development\Model.deploymenttargets
