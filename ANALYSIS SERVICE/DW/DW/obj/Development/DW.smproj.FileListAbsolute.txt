@@ -1,0 +1,6 @@
+c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\bin\Model.asdatabase
+c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\bin\Model.deploymenttargets
+c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\bin\Model.deploymentoptions
+c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\obj\Development\Model.asdatabase
+c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\obj\Development\Model.deploymentoptions
+c:\users\rvald\documents\visual studio 2015\Projects\DW\DW\obj\Development\Model.deploymenttargets

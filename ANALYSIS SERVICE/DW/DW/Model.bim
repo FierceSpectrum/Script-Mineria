@@ -1,0 +1,506 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1200,
+  "model": {
+    "culture": "es-CR",
+    "dataSources": [
+      {
+        "name": "PROJECTDW",
+        "connectionString": "Provider=SQLNCLI11;Data Source=RONEY;Initial Catalog=warehouse;User ID=sa;Persist Security Info=true",
+        "impersonationMode": "impersonateServiceAccount",
+        "annotations": [
+          {
+            "name": "ConnectionEditUISource",
+            "value": "SqlServer"
+          }
+        ]
+      }
+    ],
+    "tables": [
+      {
+        "name": "FACT_SALES",
+        "columns": [
+          {
+            "name": "SALE_KEY",
+            "dataType": "int64",
+            "sourceColumn": "SALE_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "VENTA_KEY",
+            "dataType": "int64",
+            "sourceColumn": "VENTA_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "PRODUCT_KEY",
+            "dataType": "int64",
+            "sourceColumn": "PRODUCT_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "CUSTOMER_KEY",
+            "dataType": "int64",
+            "sourceColumn": "CUSTOMER_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "EMPLOYEE_KEY",
+            "dataType": "int64",
+            "sourceColumn": "EMPLOYEE_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DATE_KEY",
+            "dataType": "int64",
+            "sourceColumn": "DATE_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "QUANTITY",
+            "dataType": "int64",
+            "sourceColumn": "QUANTITY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "UNIT_PRICE",
+            "dataType": "double",
+            "sourceColumn": "UNIT_PRICE",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "DISCOUNT",
+            "dataType": "double",
+            "sourceColumn": "DISCOUNT",
+            "sourceProviderType": "Single"
+          },
+          {
+            "name": "DB_ORIGIN",
+            "dataType": "string",
+            "sourceColumn": "DB_ORIGIN",
+            "sourceProviderType": "WChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "FACT_SALES",
+            "dataView": "full",
+            "source": {
+              "query": " \t\t\t\tSELECT [dbo].[FACT_SALES].*   FROM [dbo].[FACT_SALES] ",
+              "dataSource": "PROJECTDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dbo].[FACT_SALES].*   FROM [dbo].[FACT_SALES] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "FACT_SALES"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "VDIM_CUSTOMERS",
+        "columns": [
+          {
+            "name": "CUSTOMER_KEY",
+            "dataType": "int64",
+            "sourceColumn": "CUSTOMER_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "CUSTOMER_ID",
+            "dataType": "string",
+            "sourceColumn": "CUSTOMER_ID",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "COMPANY_NAME",
+            "dataType": "string",
+            "sourceColumn": "COMPANY_NAME",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "CONTACT_NAME",
+            "dataType": "string",
+            "sourceColumn": "CONTACT_NAME",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "COUNTRY",
+            "dataType": "string",
+            "sourceColumn": "COUNTRY",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "DB_ORIGIN",
+            "dataType": "string",
+            "sourceColumn": "DB_ORIGIN",
+            "sourceProviderType": "WChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "VDIM_CUSTOMERS",
+            "dataView": "full",
+            "source": {
+              "query": " \t\t\t\tSELECT [dbo].[VDIM_CUSTOMERS].*   FROM [dbo].[VDIM_CUSTOMERS] ",
+              "dataSource": "PROJECTDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dbo].[VDIM_CUSTOMERS].*   FROM [dbo].[VDIM_CUSTOMERS] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "VDIM_CUSTOMERS"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "VDIM_DATES",
+        "dataCategory": "Time",
+        "columns": [
+          {
+            "name": "DATE_KEY",
+            "dataType": "int64",
+            "sourceColumn": "DATE_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DATE_ID",
+            "dataType": "dateTime",
+            "isKey": true,
+            "sourceColumn": "DATE_ID",
+            "formatString": "Short Date",
+            "sourceProviderType": "DBDate",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"DateTimeShortDatePattern\" />"
+              }
+            ]
+          },
+          {
+            "name": "YEAR",
+            "dataType": "string",
+            "sourceColumn": "YEAR",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "MOUNTH",
+            "dataType": "string",
+            "sourceColumn": "MOUNTH",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DAY",
+            "dataType": "string",
+            "sourceColumn": "DAY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "FOUR_MONTH",
+            "dataType": "string",
+            "sourceColumn": "FOUR_MONTH",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "QUARTER",
+            "dataType": "string",
+            "sourceColumn": "QUARTER",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "WEEK",
+            "dataType": "string",
+            "sourceColumn": "WEEK",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "WEEK_DAY",
+            "dataType": "string",
+            "sourceColumn": "WEEK_DAY",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "YEAR_DAY",
+            "dataType": "string",
+            "sourceColumn": "YEAR_DAY",
+            "sourceProviderType": "Integer"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "VDIM_DATES",
+            "dataView": "full",
+            "source": {
+              "query": " \t\t\t\tSELECT [dbo].[VDIM_DATES].*   FROM [dbo].[VDIM_DATES] ",
+              "dataSource": "PROJECTDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dbo].[VDIM_DATES].*   FROM [dbo].[VDIM_DATES] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "VDIM_DATES"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "VDIM_EMPLOYEES",
+        "columns": [
+          {
+            "name": "EMPLOYEE_KEY",
+            "dataType": "int64",
+            "sourceColumn": "EMPLOYEE_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "EMPLOYEE_ID",
+            "dataType": "int64",
+            "sourceColumn": "EMPLOYEE_ID",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "FULL_NAME",
+            "dataType": "string",
+            "sourceColumn": "FULL_NAME",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "TITLE",
+            "dataType": "string",
+            "sourceColumn": "TITLE",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "CITY",
+            "dataType": "string",
+            "sourceColumn": "CITY",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "COUNTRY",
+            "dataType": "string",
+            "sourceColumn": "COUNTRY",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "REPORTS_TO",
+            "dataType": "string",
+            "sourceColumn": "REPORTS_TO",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "DB_ORIGIN",
+            "dataType": "string",
+            "sourceColumn": "DB_ORIGIN",
+            "sourceProviderType": "WChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "VDIM_EMPLOYEES",
+            "dataView": "full",
+            "source": {
+              "query": " \t\t\t\tSELECT [dbo].[VDIM_EMPLOYEES].*   FROM [dbo].[VDIM_EMPLOYEES] ",
+              "dataSource": "PROJECTDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dbo].[VDIM_EMPLOYEES].*   FROM [dbo].[VDIM_EMPLOYEES] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "VDIM_EMPLOYEES"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "VDIM_PRODUCTS",
+        "columns": [
+          {
+            "name": "PRODUCT_KEY",
+            "dataType": "int64",
+            "sourceColumn": "PRODUCT_KEY",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "PRODUCT_ID",
+            "dataType": "string",
+            "sourceColumn": "PRODUCT_ID",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "PRODUCT_NAME",
+            "dataType": "string",
+            "sourceColumn": "PRODUCT_NAME",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "CATEGORY",
+            "dataType": "string",
+            "sourceColumn": "CATEGORY",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "UNIT_PRICE",
+            "dataType": "double",
+            "sourceColumn": "UNIT_PRICE",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "UNITS_IN_STOCK",
+            "dataType": "string",
+            "sourceColumn": "UNITS_IN_STOCK",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "QUANTITY_PER_UNIT",
+            "dataType": "string",
+            "sourceColumn": "QUANTITY_PER_UNIT",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "DB_ORIGIN",
+            "dataType": "string",
+            "sourceColumn": "DB_ORIGIN",
+            "sourceProviderType": "WChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "VDIM_PRODUCTS",
+            "dataView": "full",
+            "source": {
+              "query": " \t\t\t\tSELECT [dbo].[VDIM_PRODUCTS].*   FROM [dbo].[VDIM_PRODUCTS] ",
+              "dataSource": "PROJECTDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dbo].[VDIM_PRODUCTS].*   FROM [dbo].[VDIM_PRODUCTS] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "VDIM_PRODUCTS"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "Metricas",
+        "columns": [
+          {
+            "name": "identificador",
+            "dataType": "int64",
+            "sourceColumn": "identificador",
+            "sourceProviderType": "Integer"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Metricas",
+            "dataView": "full",
+            "source": {
+              "query": "select 1 identificador",
+              "dataSource": "PROJECTDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select 1 identificador</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": "select 1 identificador"
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Metricas"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select 1 identificador</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "bb9852dd-76d1-4888-a15c-3c8f2a2689f5",
+        "fromTable": "FACT_SALES",
+        "fromColumn": "CUSTOMER_KEY",
+        "toTable": "VDIM_CUSTOMERS",
+        "toColumn": "CUSTOMER_KEY"
+      },
+      {
+        "name": "bfcf5a66-9229-4063-b3c5-4bbacf43cdb6",
+        "fromTable": "FACT_SALES",
+        "fromColumn": "DATE_KEY",
+        "toTable": "VDIM_DATES",
+        "toColumn": "DATE_KEY"
+      },
+      {
+        "name": "58e48d01-d669-473b-b12c-d5820d842a91",
+        "fromTable": "FACT_SALES",
+        "fromColumn": "EMPLOYEE_KEY",
+        "toTable": "VDIM_EMPLOYEES",
+        "toColumn": "EMPLOYEE_KEY"
+      },
+      {
+        "name": "e47efb46-44dc-4439-a4e9-781358437a25",
+        "fromTable": "FACT_SALES",
+        "fromColumn": "PRODUCT_KEY",
+        "toTable": "VDIM_PRODUCTS",
+        "toColumn": "PRODUCT_KEY"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "400"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}
