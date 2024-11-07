@@ -35,7 +35,6 @@ def create_reference_sql(table_name, column, table_reference, column_reference):
     """
     name_restriction = f"FK_{table_name.split('_')[1]}_{table_reference.split('_')[1]}"
     script = f"ALTER TABLE {table_name} ADD CONSTRAINT {name_restriction} foreign key ({column}) references {table_reference}({column_reference})"
-    print(script)
     return script
 
 
@@ -162,6 +161,15 @@ def has_realtionship(table_name, connection=target_conn3):
 
 
 def chage_data_for_id(data, positition, ids):
+    try:
+        for file in data:
+            file[positition] = ids[file[positition]]
+        return data
+    except Exception as e:
+        print(f"Error al cambiar datos: {str(e)}")
+
+
+def chage_data_for_id_and_origin(data, positition, ids):
     """
     Modifica los valores de una columna específica en los datos de entrada basándose en un diccionario de IDs.
 

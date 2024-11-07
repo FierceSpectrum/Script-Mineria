@@ -2,17 +2,16 @@
 import sys
 sys.path.append("c:/ETLS/Script-Mineria/ETL")
 
-
-from utilidades import analisis as anl, consultas as csl, formato as frt
-from utilidades import manejo_datos as mnd, relaciones as rlc, traducciones as tdc
 from conexiones.conexion_singleton import oradbconn, target_conn, target_conn2, target_conn3
-
+from utilidades import manejo_datos as mnd, relaciones as rlc, traducciones as tdc
+from utilidades import analisis as anl, consultas as csl, formato as frt
 
 
 def migrate_view_to_table(connection=target_conn):
     connection_wh = target_conn3
-    # Leer archivo JSON
-    views = frt.read_json(r'c:/ETLS/Script-Mineria/ETL/config/config_tablas.json')
+
+    views = frt.read_json(
+        r'c:/ETLS/Script-Mineria/ETL/config/config_tablas.json')
 
     for vista in views['tables']:
         name = vista["name"]
@@ -85,7 +84,16 @@ def migrate_view_to_table(connection=target_conn):
                             name, reference["column"], reference["table_ref"], reference["foreignKey"])
                         csl.execute_sql_query(
                             reference_script, connection=connection_wh)
-                    if reference["table_ref"] != "VDIM_DATES":
+                        
+                    structura = [coln for coln, _ in csl.get_table_structure(
+                            name, "dbo", "sqlserver", connection)]
+                    
+                    structura_ref_table = [coln for coln, _ in csl.get_table_structure(
+                            reference['table_ref'], "dbo", "sqlserver", connection)]
+                    
+                    column = reference["column"]
+
+                    if "DB_ORIGIN" in structura_ref_table:
                         consulta = f"SELECT {reference['foreignKey'].split('_')[0]}_ID, {reference['foreignKey']}, DB_ORIGIN FROM {reference['table_ref']}"
                         ids = csl.get_data_query(consulta, connection_wh)
                         data_dict = {}
@@ -94,17 +102,22 @@ def migrate_view_to_table(connection=target_conn):
                             if origin not in data_dict:
                                 data_dict[origin] = {}
                             data_dict[origin][key] = value
+                        
+                        
+                        if column in structura:
+                            posicion = structura.index(column)
+                            datos = rlc.chage_data_for_id_and_origin(
+                                datos, posicion, data_dict)
+                            
+                    else:
+                        consulta = f"SELECT {reference['foreignKey'].split('_')[0]}_ID, {reference['foreignKey']} FROM {reference['table_ref']}"
+                        ids = csl.get_data_query(consulta, connection_wh)
 
-                        structura = [coln for coln, _ in csl.get_table_structure(
-                            name, "dbo", "sqlserver", connection)]
-                        column = reference["column"]
                         if column in structura:
                             posicion = structura.index(column)
                             datos = rlc.chage_data_for_id(
-                                datos, posicion, data_dict)
-                    elif reference["table_ref"] == "VDIM_DATES":
-                        pass
-                
+                                datos, posicion, dict(ids))
+                            
             relacion, realacion_tabla = rlc.has_realtionship(name)
             if relacion:
                 csl.disable_restrictions(realacion_tabla)
