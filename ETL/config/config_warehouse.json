@@ -1,8 +1,343 @@
 {
-    "tables" : [
+    "tables": [
         {
-            "name":"",
-            "query":""
+            "name": "VDIM_CUSTOMERS",
+            "columns": [
+                {
+                    "name": "CUSTOMER_KEY",
+                    "type": "int",
+                    "identity": {
+                        "seed": 1,
+                        "increment": 1
+                    },
+                    "nullable": false,
+                    "primaryKey": true
+                },
+                {
+                    "name": "CUSTOMER_ID",
+                    "type": "nvarchar",
+                    "length": 10,
+                    "nullable": true
+                },
+                {
+                    "name": "COMPANY_NAME",
+                    "type": "nvarchar",
+                    "length": 50,
+                    "nullable": true
+                },
+                {
+                    "name": "CONTACT_NAME",
+                    "type": "nvarchar",
+                    "length": 30,
+                    "nullable": true
+                },
+                {
+                    "name": "COUNTRY",
+                    "type": "nvarchar",
+                    "length": 50,
+                    "nullable": true
+                },
+                {
+                    "name": "DB_ORIGIN",
+                    "type": "nvarchar",
+                    "length": 10,
+                    "nullable": true
+                }
+            ]
+        },
+        {
+            "name": "VDIM_DATES",
+            "columns": [
+                {
+                    "name": "DATE_KEY",
+                    "type": "int",
+                    "identity": {
+                        "seed": 1,
+                        "increment": 1
+                    },
+                    "nullable": false,
+                    "primaryKey": true
+                },
+                {
+                    "name": "DATE_ID",
+                    "type": "date",
+                    "nullable": true
+                },
+                {
+                    "name": "YEAR",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "MOUNTH",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "DAY",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "FOUR_MONTH",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "QUARTER",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "WEEK",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "WEEK_DAY",
+                    "type": "varchar",
+                    "length": 9,
+                    "nullable": true
+                },
+                {
+                    "name": "YEAR_DAY",
+                    "type": "int",
+                    "nullable": true
+                }
+            ]
+        },
+        {
+            "name": "VDIM_EMPLOYEES",
+            "columns": [
+                {
+                    "name": "EMPLOYEE_KEY",
+                    "type": "int",
+                    "identity": {
+                        "seed": 1,
+                        "increment": 1
+                    },
+                    "nullable": false,
+                    "primaryKey": true
+                },
+                {
+                    "name": "EMPLOYEE_ID",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "FULL_NAME",
+                    "type": "nvarchar",
+                    "length": 101,
+                    "nullable": true
+                },
+                {
+                    "name": "TITLE",
+                    "type": "nvarchar",
+                    "length": 50,
+                    "nullable": true
+                },
+                {
+                    "name": "CITY",
+                    "type": "nvarchar",
+                    "length": 30,
+                    "nullable": true
+                },
+                {
+                    "name": "COUNTRY",
+                    "type": "nvarchar",
+                    "length": 50,
+                    "nullable": true
+                },
+                {
+                    "name": "REPORTS_TO",
+                    "type": "nvarchar",
+                    "length": 101,
+                    "nullable": true
+                },
+                {
+                    "name": "DB_ORIGIN",
+                    "type": "nvarchar",
+                    "length": 10,
+                    "nullable": true
+                }
+            ]
+        },
+        {
+            "name": "VDIM_PRODUCTS",
+            "columns": [
+                {
+                    "name": "PRODUCT_KEY",
+                    "type": "int",
+                    "identity": {
+                        "seed": 1,
+                        "increment": 1
+                    },
+                    "nullable": false,
+                    "primaryKey": true
+                },
+                {
+                    "name": "PRODUCT_ID",
+                    "type": "nvarchar",
+                    "length": 15,
+                    "nullable": true
+                },
+                {
+                    "name": "PRODUCT_NAME",
+                    "type": "nvarchar",
+                    "length": 70,
+                    "nullable": true
+                },
+                {
+                    "name": "CATEGORY",
+                    "type": "nvarchar",
+                    "length": 50,
+                    "nullable": true
+                },
+                {
+                    "name": "UNIT_PRICE",
+                    "type": "decimal",
+                    "nullable": true
+                },
+                {
+                    "name": "UNITS_IN_STOCK",
+                    "type": "varchar",
+                    "length": 50,
+                    "nullable": true
+                },
+                {
+                    "name": "QUANTITY_PER_UNIT",
+                    "type": "nvarchar",
+                    "length": 100,
+                    "nullable": true
+                },
+                {
+                    "name": "DB_ORIGIN",
+                    "type": "nvarchar",
+                    "length": 10,
+                    "nullable": true
+                }
+            ]
+        },
+        {
+            "name": "FACT_SALES",
+            "columns": [
+                {
+                    "name": "SALE_KEY",
+                    "type": "int",
+                    "identity": {
+                        "seed": 1,
+                        "increment": 1
+                    },
+                    "nullable": false,
+                    "primaryKey": true
+                },
+                {
+                    "name": "VENTA_KEY",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "PRODUCT_KEY",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "CUSTOMER_KEY",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "EMPLOYEE_KEY",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "DATE_KEY",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "QUANTITY",
+                    "type": "int",
+                    "nullable": true
+                },
+                {
+                    "name": "UNIT_PRICE",
+                    "type": "decimal",
+                    "nullable": true
+                },
+                {
+                    "name": "DISCOUNT",
+                    "type": "real",
+                    "nullable": true
+                },
+                {
+                    "name": "DB_ORIGIN",
+                    "type": "nvarchar",
+                    "length": 10,
+                    "nullable": true
+                }
+            ],
+            "constraints": [
+                {
+                    "name": "FK_SALES_EMPLOYEES",
+                    "type": "foreign key",
+                    "column": "EMPLOYEE_KEY",
+                    "references": {
+                        "table": "VDIM_EMPLOYEES",
+                        "column": "EMPLOYEE_KEY"
+                    }
+                },
+                {
+                    "name": "FK_SALES_DATES",
+                    "type": "foreign key",
+                    "column": "DATE_KEY",
+                    "references": {
+                        "table": "VDIM_DATES",
+                        "column": "DATE_KEY"
+                    }
+                },
+                {
+                    "name": "FK_SALES_PRODUCTS",
+                    "type": "foreign key",
+                    "column": "PRODUCT_KEY",
+                    "references": {
+                        "table": "VDIM_PRODUCTS",
+                        "column": "PRODUCT_KEY"
+                    }
+                },
+                {
+                    "name": "FK_SALES_CUSTOMERS",
+                    "type": "foreign key",
+                    "column": "CUSTOMER_KEY",
+                    "references": {
+                        "table": "VDIM_CUSTOMERS",
+                        "column": "CUSTOMER_KEY"
+                    }
+                }
+            ]
+        }
+    ],
+    "tables2": [
+        {
+            "name": "VDIM_EMPLOYEES",
+            "query": ""
+        },
+        {
+            "name": "VDIM_DATES",
+            "query": ""
+        },
+        {
+            "name": "VDIM_PRODUCTS",
+            "query": ""
+        },
+        {
+            "name": "VDIM_CUSTOMERS",
+            "query": ""
+        },
+        {
+            "name": "FACT_SALES",
+            "query": ""
         }
     ]
 }
