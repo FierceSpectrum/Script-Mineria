@@ -7,7 +7,8 @@ from conexiones.conexion_singleton import oradbconn, target_conn, target_conn2, 
 def convert_data_as_dataframe(data, table_name):
     """
     Convierte los datos obtenidos de una tabla en un DataFrame de pandas.
-    Parámetros:
+
+    - Parámetros:
     --data (list of tuples): Los datos que se desean convertir en un DataFrame. Se espera que sea una lista de tuplas
                            donde cada tupla representa una fila de datos.
     --table_name (str): El nombre de la tabla, utilizado para obtener los nombres de las columnas a través de `table_attributes`.
@@ -32,7 +33,8 @@ def convert_data_as_dataframe(data, table_name):
 def read_json(rute="C:/ETLS/Script-Mineria/ETL/config/config_vistas.json"):
     """
     Lee un archivo JSON y devuelve su contenido como un diccionario de Python.
-    Parámetros:
+
+    - Parámetros:
     --rute (str): Ruta del archivo JSON que se desea leer. El valor predeterminado es 
                           `"C:/ETLS/Script-Mineria/ETL/config/config_vistas.json"`.
                           
@@ -49,7 +51,7 @@ def clear_data_sql(tabla, table_structure, connection=target_conn):
     """
     Limpia y transforma los datos de una tabla según las configuraciones especificadas.
 
-    Parámetros:
+    - Parámetros:
     --tabla (dict): Un diccionario que contiene la información de la tabla, incluida la consulta SQL para obtener los datos 
                   y las configuraciones de transformación (por ejemplo, las columnas que requieren traducción, cambio a 
                   mayúsculas, o asignación de país).
@@ -88,7 +90,8 @@ def clear_data_sql(tabla, table_structure, connection=target_conn):
 def convert_data_type(data_type, db_type):
     """
     Convierte tipos de datos entre diferentes bases de datos (Oracle y SQL Server).
-    Parámetros:
+
+    - Parámetros:
     --data_type (str): El tipo de dato que se desea convertir. Puede ser un tipo de dato específico de Oracle o SQL Server.
     --db_type (str): El tipo de base de datos a la que se desea convertir el tipo de dato. Puede ser "oracle" o "sqlserver".
 
@@ -127,7 +130,7 @@ def data_transform(data, columns, table_structure, transform_func):
     """
     Aplica una transformación a las columnas especificadas de un conjunto de datos.
 
-    Parámetros:
+    - Parámetros:
     --data (list of list): Lista de filas de datos, donde cada fila es una lista de valores correspondientes a las columnas.
     --columns (list of str): Lista de nombres de las columnas en las que se desea aplicar la transformación.
     --table_structure (list of str): Lista con los nombres de las columnas de la tabla, que define la estructura de los datos.
@@ -150,7 +153,7 @@ def dividir_lista_en_sublistas(lista, y):
     """
     Divide una lista en sublistas de tamaño especificado.
 
-    Parámetros:
+    - Parámetros:
     --lista (list): La lista de elementos que se desea dividir en sublistas.
     --y (int): El tamaño de las sublistas. Si el tamaño de la lista no es divisible de manera exacta, 
              la última sublista contendrá los elementos restantes.
@@ -165,7 +168,7 @@ def eliminar_duplicados(lista):
     """
     Elimina los elementos duplicados de una lista, manteniendo el orden de aparición.
 
-    Parámetros:
+    - Parámetros:
     --lista (list): Lista de elementos de cualquier tipo, de la cual se eliminarán los duplicados.
 
     Retorno:

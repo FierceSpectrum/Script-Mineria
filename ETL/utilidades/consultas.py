@@ -3,7 +3,8 @@ from conexiones.conexion_singleton import oradbconn, target_conn, target_conn2, 
 def table_exists(table_name, owner, db_type="sqlserver", connection=target_conn):
     """
     Verifica si una tabla existe en una base de datos específica.
-    --Parámetros:
+
+    -Parámetros:
     --table_name (str): Nombre de la tabla que se desea verificar.
     --owner (str): Esquema o propietario de la tabla.
     --db_type (str, ): Tipo de base de datos, que puede ser 'sqlserver' (por defecto) u 'oracle'.
@@ -46,7 +47,7 @@ def get_table_structure(table_name, owner, db_type="oracle", connection=oradbcon
     """
     Obtiene la estructura de columnas de una tabla específica en una base de datos.
 
-    Parámetros:
+    -Parámetros:
     --table_name (str): Nombre de la tabla cuyo esquema se quiere obtener.
     --owner (str): Esquema o propietario de la tabla.
     --db_type (str, ): Tipo de base de datos, que puede ser 'oracle' (por defecto) o 'sqlserver'.
@@ -109,7 +110,7 @@ def get_data_query(sql_query, connection=target_conn):
     """
     Ejecuta una consulta SQL y devuelve los resultados.
 
-    Parámetros:
+    -Parámetros:
     --sql_query (str): Consulta SQL que se desea ejecutar.
     --connection (obj, ): Conexión activa a la base de datos para ejecutar la consulta.
 
@@ -138,7 +139,7 @@ def execute_sql_query(sql_query, connection=target_conn):
     """
     Ejecuta una consulta SQL y confirma los cambios en la base de datos.
 
-    Parámetros:
+    -Parámetros:
     --sql_query (str): Consulta SQL que se desea ejecutar.
     connection (obj, ): Conexión activa a la base de datos para ejecutar la consulta.
 
@@ -162,9 +163,7 @@ def create_sql_select(owner, table_name, columns):
     """
     Genera una consulta SQL SELECT para una tabla específica con expresiones personalizadas para las columnas.
 
-    
-
-    Parámetros:
+    -Parámetros:
     --owner (str): Esquema o propietario de la tabla.
     --table_name (str): Nombre de la tabla de la cual se seleccionarán los datos.
     --columns (list): Lista de tuplas `(column, expression)`, donde:
@@ -206,7 +205,7 @@ def get_table_data(owner, table_name, connection=oradbconn):
     """
     Obtiene todos los datos de una tabla específica en la base de datos.
 
-    Parámetros:
+    -Parámetros:
     --owner (str): Esquema o propietario de la tabla en la base de datos.
     --table_name (str): Nombre de la tabla cuyos datos se desean obtener.
     --connection (obj, ): Conexión activa a la base de datos (por defecto usa `oradbconn`).
@@ -234,8 +233,8 @@ def create_sql_insert(owner, table, numfields):
     """
     Genera una instrucción SQL INSERT para una tabla específica con un número dado de campos.
 
-    Parámetros:
-   --owner (str): Esquema o propietario de la tabla en la base de datos.
+    -Parámetros:
+    --owner (str): Esquema o propietario de la tabla en la base de datos.
     --table (str): Nombre de la tabla en la que se desean insertar los datos.
     --numfields (int): Número de campos (columnas) que se van a insertar en la tabla.
 
@@ -250,9 +249,10 @@ def create_sql_insert(owner, table, numfields):
 def count_columns(table, db_type="oracle", connection=oradbconn):
     """
     Cuenta el número de columnas de una tabla en una base de datos específica.
-    Parámetros:
-   -- table (str): Nombre de la tabla cuyo número de columnas se desea contar.
-   -- db_type (str, ): Tipo de base de datos, puede ser "oracle" o "sqlserver" (por defecto es "oracle").
+
+    - Parámetros:
+    -- table (str): Nombre de la tabla cuyo número de columnas se desea contar.
+    -- db_type (str, ): Tipo de base de datos, puede ser "oracle" o "sqlserver" (por defecto es "oracle").
     --connection (obj, ): Conexión activa a la base de datos para ejecutar la consulta (por defecto usa `oradbconn`).
 
     Retorno:
@@ -277,7 +277,8 @@ def count_columns(table, db_type="oracle", connection=oradbconn):
 def get_user_tables(db_type="oracle", connection=oradbconn):
     """
     Obtiene una lista de las tablas del usuario en una base de datos específica.
-    Parámetros:
+
+    - Parámetros:
     db_type (str, ): Tipo de base de datos. Puede ser "oracle" o "sqlserver". 
                              El valor predeterminado es "oracle".
     connection (obj, ): Conexión activa a la base de datos para ejecutar la consulta 
@@ -305,7 +306,8 @@ def get_user_tables(db_type="oracle", connection=oradbconn):
 def table_attributes(table_name, db_type="oracle", connection=oradbconn):
     """
     Obtiene el número de columnas y una lista de los nombres de columnas de una tabla específica.
-    Parámetros:
+
+    - Parámetros:
     --table_name (str): Nombre de la tabla de la cual se desean obtener los atributos.
     --db_type (str, ): Tipo de base de datos. Puede ser "oracle" o "sqlserver". 
                              El valor predeterminado es "oracle".
@@ -349,7 +351,8 @@ def table_attributes(table_name, db_type="oracle", connection=oradbconn):
 def statement_insert(table_name, table_attributes):
     """
     Genera una consulta SQL INSERT basada en los atributos de una tabla.
-    Parámetros:
+
+    - Parámetros:
     --table_name (str): Nombre de la tabla en la cual se insertarán los datos.
     --table_attributes (tuple): Tupla que contiene dos elementos:
         - Un entero que representa el número de columnas de la tabla.
@@ -371,7 +374,8 @@ def statement_insert(table_name, table_attributes):
 def disable_restrictions(table_name, connection=target_conn3):
     """
     Deshabilita las restricciones de una tabla en una base de datos específica.
-    Parámetros:
+
+    - Parámetros:
     --table_name (str): Nombre de la tabla en la que se desean deshabilitar las restricciones.
     --connection (obj, ): Conexión activa a la base de datos para ejecutar la consulta 
                                 (por defecto usa `target_conn3`).
@@ -389,7 +393,8 @@ def disable_restrictions(table_name, connection=target_conn3):
 def enable_restrictions(table_name, connection=target_conn3):
     """
     Habilita las restricciones de una tabla en una base de datos específica.
-    Parámetros:
+
+    - Parámetros:
     --table_name (str): Nombre de la tabla en la que se desean habilitar las restricciones.
     --connection (obj, ): Conexión activa a la base de datos para ejecutar la consulta 
                                 (por defecto usa `target_conn3`).

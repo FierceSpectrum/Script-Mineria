@@ -6,7 +6,7 @@ def check_tables(tables):
     """
     Revisa si se encontraron tablas válidas.
 
-    Parámetros:
+    -Parámetros:
     --tables (list): Lista de tablas que se desean verificar. 
     """
     if not isinstance(tables, list) or len(tables) == 0:
@@ -19,7 +19,7 @@ def check_lengths(dataframe, max_length, limit=10):
     """
     Verifica si existen valores en un DataFrame que superen una longitud máxima especificada.
 
-    Parámetros:
+    -Parámetros:
     --dataframe (pd.DataFrame): El DataFrame en el que se buscarán valores largos.
     max_length (int): Longitud máxima permitida para los valores en cada columna.
     limit (int, opcional): Número de filas a mostrar en el caso de encontrar valores largos.
@@ -46,7 +46,7 @@ def max_column_sizes(df):
     """
     Calcula y muestra el tamaño máximo de los valores en cada columna de un DataFrame.
 
-    Parámetros:
+    -Parámetros:
     --df (pd.DataFrame): El DataFrame cuyos tamaños de columna se quieren analizar.
     """
     

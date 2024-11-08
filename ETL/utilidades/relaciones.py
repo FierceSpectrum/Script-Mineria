@@ -5,7 +5,7 @@ def create_reference_sql(table_name, column, table_reference, column_reference):
     """
     Genera una consulta SQL para crear una restricción de clave foránea (FOREIGN KEY) entre dos tablas.
 
-    Parámetros:
+    - Parámetros:
     --table_name (str): Nombre de la tabla que contiene la columna que se va a referenciar.
     --column (str): Nombre de la columna en la tabla `table_name` que se va a utilizar como clave foránea.
     --table_reference (str): Nombre de la tabla a la que se va a hacer referencia.
@@ -23,11 +23,11 @@ def has_foreign_key_relationship(parent_table, referenced_table, db_type="sqlser
     """
     Verifica si existe una relación de llave foránea entre dos tablas.
 
-    Parámetros:
-    - parent_table: el nombre de la tabla que contiene la llave foránea.
-    - referenced_table: el nombre de la tabla referenciada.
-    - db_type: el tipo de base de datos ('sqlserver' u 'oracle').
-    - connection: la conexión a la base de datos.
+    - Parámetros:
+    --parent_table: el nombre de la tabla que contiene la llave foránea.
+    --referenced_table: el nombre de la tabla referenciada.
+    --db_type: el tipo de base de datos ('sqlserver' u 'oracle').
+    -- connection: la conexión a la base de datos.
 
     Retorna:
     - True si existe una llave foránea entre las tablas, False en caso contrario.
@@ -94,9 +94,9 @@ def has_realtionship(table_name, connection=target_conn3):
     """
     Verifica si existe una relación de llave foránea de una tabla.
 
-    Parámetros:
-    - table_name: el nombre de la tabla que busca la llave foránea.
-    - connection: la conexión a la base de datos.
+    - Parámetros:
+    --table_name: el nombre de la tabla que busca la llave foránea.
+    --connection: la conexión a la base de datos.
 
     Retorna:
     - True si existe una llave foránea, False en caso contrario.
@@ -153,7 +153,8 @@ def chage_data_for_id(data, positition, ids):
 def chage_data_for_id_and_origin(data, positition, ids):
     """
     Modifica los valores de una columna específica en los datos de entrada basándose en un diccionario de IDs.
-    Parámetros:
+
+    - Parámetros:
     --data (list): Lista de registros, donde cada registro es una lista de valores (simulando filas de una tabla).
     --positition (int): Índice de la columna en la que se van a realizar los cambios.
     --ids (dict): Diccionario que mapea los valores antiguos de la columna a nuevos valores. La clave es el valor antiguo 

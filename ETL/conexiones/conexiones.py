@@ -24,6 +24,7 @@ def mssql_conndb(method=1, DB_DATABASE='DB_DATABASE'):
     database = os.getenv(DB_DATABASE)
     username = os.getenv('DB_USERNAME')
     password = os.getenv('DB_PASSWORD')
+    
     if not password:
         raise ValueError(
             "La variable de entorno DB_PASSWORD no está definida.")

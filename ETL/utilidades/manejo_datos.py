@@ -5,10 +5,7 @@ def add_data_entity(data, tablename, numfields, connection=target_conn):
     """
     Inserta datos en una tabla de SQL Server.
 
-    Esta función toma una lista de datos y los inserta en una tabla de SQL Server. La inserción se realiza
-    mediante la ejecución de una consulta `INSERT INTO` generada con la función `create_sql_insert`. 
-
-    Parámetros:
+   - Parámetros:
     --data (list of tuples): Los datos a insertar en la tabla. Cada tupla representa una fila de datos.
     --tablename (str): El nombre de la tabla en la que se insertarán los datos.
     --numfields (int): El número de columnas en la tabla a insertar, que determina la cantidad de valores
@@ -36,7 +33,7 @@ def delete_data_entity(table, operation, connection=target_conn):
     """
     Elimina todos los datos de una tabla utilizando una operación SQL específica.
 
-    Parámetros:
+    - Parámetros:
     --table (str): El nombre de la tabla de la cual se eliminarán los datos.
     --operation (str): La operación que se va a realizar, puede ser `'DELETE'` o `'TRUNCATE'`.
     --connection (object): La conexión a la base de datos. Por defecto, usa `target_conn`.
@@ -64,7 +61,7 @@ def execute_oracle_procedure(pprocedure):
     """
     Ejecuta un procedimiento almacenado en una base de datos Oracle.
 
-    Parámetros:
+    - Parámetros:
     pprocedure (str): El nombre del procedimiento almacenado que se desea ejecutar.
     """
     cursor = oradbconn.cursor()
@@ -81,7 +78,7 @@ def create_table(table_name, owner, table_structure, db_type="sqlserver", connec
     """
     Crea una tabla en la base de datos especificada con la estructura indicada.
 
-    Parámetros:
+    - Parámetros:
     --table_name (str): El nombre de la tabla que se desea crear.
     --owner (str): El propietario o esquema donde se creará la tabla.
     --table_structure (list): Una lista de tuplas que especifican los nombres de las columnas y sus tipos de datos.
@@ -127,7 +124,8 @@ def create_table(table_name, owner, table_structure, db_type="sqlserver", connec
 def execute_sql_view(sql_query, connection=target_conn):
     """
     Ejecuta una consulta SQL para crear o modificar una vista en la base de datos.
-    Parámetros:
+
+    - Parámetros:
     --sql_query (str): Consulta SQL para crear o modificar una vista. Debe ser una cadena que contenga una 
                      instrucción SQL válida, por ejemplo, "CREATE OR ALTER VIEW vista_ejemplo AS SELECT ...".
     --connection (objeto de conexión): Conexión a la base de datos. Se utiliza `target_conn` por defecto.
