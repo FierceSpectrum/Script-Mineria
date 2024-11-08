@@ -26,13 +26,13 @@ Requerimientos:
 - Módulos de utilidades para manejo de datos, consultas, análisis y formatos.
 """
 
+# Importación de librerías y módulos necesarios
 import sys
 # Añade el directorio ETL al path para importar módulos personalizados
 sys.path.append("c:/ETLS/Script-Mineria/ETL")
 
-from conexiones.conexion_singleton import oradbconn, target_conn, target_conn2, target_conn3
-from utilidades import manejo_datos as mnd, relaciones as rlc, traducciones as tdc
-from utilidades import analisis as anl, consultas as csl, formato as frt
+from utilidades import mnd, rlc, tdc, anl, csl, frt
+from conexiones import oradbconn, target_conn, target_conn2, target_conn3
 
 
 def migrate_sql_to_sql(connection=target_conn2):

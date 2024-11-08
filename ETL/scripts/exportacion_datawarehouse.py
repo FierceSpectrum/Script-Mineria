@@ -24,12 +24,12 @@ Requerimientos:
 """
 
 # Importaciones de librerías y módulos
-from utilidades import analisis as anl, consultas as csl, formato as frt
-from utilidades import manejo_datos as mnd, relaciones as rlc, traducciones as tdc
-from conexiones.conexion_singleton import oradbconn, target_conn, target_conn2, target_conn3
 import sys
 # Añade el directorio ETL al path para importar módulos personalizados
 sys.path.append("c:/ETLS/Script-Mineria/ETL")
+
+from utilidades import mnd, rlc, tdc, anl, csl, frt
+from conexiones import oradbconn, target_conn, target_conn2, target_conn3
 
 
 def migrate_view_to_table(connection=target_conn):
@@ -126,24 +126,22 @@ def migrate_view_to_table(connection=target_conn):
 
         if datos and exists:
             if "references" in vista:
-
+                # Configura relaciones foráneas si hay referencias
                 for reference in vista["references"]:
-
                     realationship = rlc.has_foreign_key_relationship(
                         name, reference["table_ref"])
-
                     if not realationship:
                         reference_script = rlc.create_reference_sql(
-                            name, reference["column"], reference["table_ref"], reference["foreignKey"])
+                            name, reference["column"], reference["table_ref"], reference["foreignKey"]
+                        )
                         csl.execute_sql_query(
                             reference_script, connection=connection_wh)
 
+                    # Actualiza los datos de las columnas referenciadas
                     structura = [coln for coln, _ in csl.get_table_structure(
                         name, "dbo", "sqlserver", connection)]
-
                     structura_ref_table = [coln for coln, _ in csl.get_table_structure(
                         reference['table_ref'], "dbo", "sqlserver", connection)]
-
                     column = reference["column"]
 
                     if "DB_ORIGIN" in structura_ref_table:
@@ -164,23 +162,23 @@ def migrate_view_to_table(connection=target_conn):
                     else:
                         consulta = f"SELECT {reference['foreignKey'].split('_')[0]}_ID, {reference['foreignKey']} FROM {reference['table_ref']}"
                         ids = csl.get_data_query(consulta, connection_wh)
-
                         if column in structura:
                             posicion = structura.index(column)
                             datos = rlc.chage_data_for_id(
                                 datos, posicion, dict(ids))
 
+            # Desactiva restricciones, limpia la tabla destino y carga los datos
             relacion, realacion_tabla = rlc.has_realtionship(name)
             if relacion:
                 csl.disable_restrictions(realacion_tabla)
                 mnd.delete_data_entity(name, 'DELETE', connection_wh)
             else:
                 mnd.delete_data_entity(name, 'TRUNCATE', connection_wh)
-            cant_columns = csl.count_columns(
-                name, "sqlserver", connection_wh) - 1
+            cant_columns = csl.count_columns(name, "sqlserver", connection_wh) - 1
             mnd.add_data_entity(datos, name, cant_columns, connection_wh)
             csl.enable_restrictions(name)
-        print("\n")
+            
+        print("\n") # Espacio para separar logs de cada vista
 
 
 # Punto de entrada principal del módulo

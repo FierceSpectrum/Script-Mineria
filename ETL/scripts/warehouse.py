@@ -35,14 +35,15 @@ Parámetros de configuración:
 - La función create_tables_wh permite establecer una conexión a la base de datos mediante el parámetro connection, el cual, si no se especifica, utiliza target_conn3 como conexión predeterminada.
 Este módulo es útil en casos donde es necesario configurar y crear tablas dinámicamente basadas en especificaciones externas sin necesidad de editar el SQL manualmente.
 
-
 """
+
+# Importación de librerías y módulos necesarios
 import sys
+# Añade el directorio ETL al path para importar módulos personalizados
 sys.path.append("c:/ETLS/Script-Mineria/ETL")
 
-from utilidades import analisis as anl, consultas as csl, formato as frt
-from utilidades import manejo_datos as mnd, relaciones as rlc, traducciones as tdc
-from conexiones.conexion_singleton import oradbconn, target_conn, target_conn2, target_conn3
+from utilidades import mnd, rlc, tdc, anl, csl, frt
+from conexiones import oradbconn, target_conn, target_conn2, target_conn3
 
 
 def generate_create_table_sql(table_json):
@@ -120,13 +121,13 @@ def create_tables_wh(connection=target_conn3):
         # Verifica si la tabla ya existe en la base de datos
         exist_table = csl.table_exists(name, "dbo", connection=connection)
         if exist_table:
-            print(f"La tabla {name} ya existe.")
+            print(f"La tabla {name} ya existe. \n")
             continue
 
         # Genera la instrucción SQL para crear la tabla y la ejecuta
         query = generate_create_table_sql(table)
         csl.execute_sql_query(query, connection)
-        print(f"La tabla {name} fue creada.")
+        print(f"La tabla {name} fue creada. \n")
 
 
 # Punto de entrada del script
