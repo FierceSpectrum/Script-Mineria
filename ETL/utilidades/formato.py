@@ -24,7 +24,7 @@ Requerimientos:
 import pandas as pd
 import json
 
-from utilidades import csl, tdc
+from . import consultas as csl, traducciones as tdc
 from conexiones import oradbconn, target_conn, target_conn2, target_conn3
 
 

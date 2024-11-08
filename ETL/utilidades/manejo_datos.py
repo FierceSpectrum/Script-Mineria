@@ -23,7 +23,7 @@ Requerimientos:
 - Módulo `utilidades.formato` para la conversión de tipos de datos entre Oracle y SQL Server.
 """
 
-from utilidades import frt, cst
+from . import formato as frt, consultas as csl
 from conexiones import oradbconn, target_conn, target_conn2, target_conn3
 
 
@@ -40,7 +40,7 @@ def add_data_entity(data, tablename, numfields, connection=target_conn):
                                                 se usará la conexión predeterminada `target_conn`.
 
     """
-    sql = cst.create_sql_insert("dbo", tablename, numfields)
+    sql = csl.create_sql_insert("dbo", tablename, numfields)
 
     if data:
         cursor = connection.cursor()

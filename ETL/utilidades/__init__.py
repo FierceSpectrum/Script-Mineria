@@ -1,10 +1,10 @@
 # utilidades/__init__.py
 
-import manejo_datos as mnd
-import relaciones as rlc
-import traducciones as tdc
-import analisis as anl
-import consultas as csl
-import formato as frt
+from . import manejo_datos as mnd
+from . import relaciones as rlc
+from . import traducciones as tdc
+from . import analisis as anl
+from . import consultas as csl
+from . import formato as frt
 
 __all__ = ["mnd", "rlc", "tdc", "anl", "csl", "frt"]

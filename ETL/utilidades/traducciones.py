@@ -14,7 +14,7 @@ Requerimientos:
 - Módulo `formato` para eliminar duplicados y dividir listas.
 """
 
-from utilidades import frt
+from . import formato as frt
 from translate import Translator
 
 translator = Translator(from_lang="en", to_lang="es")
