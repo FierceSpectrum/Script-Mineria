@@ -1,15 +1,31 @@
-from utilidades import formato as frt
-from conexiones.conexion_singleton import oradbconn, target_conn, target_conn2, target_conn3
+"""
+Módulo de Traducciones Automáticas
 
+Este módulo proporciona funciones para traducir frases y datos en tablas automáticamente. Utiliza
+una herramienta de traducción para transformar datos en inglés a español y se integra con otros
+módulos para manejar los datos a traducir.
+
+Funcionalidades principales:
+- `translate_phrase(frase)`: Traduce una frase del inglés al español.
+- `data_translate(data, columns, table_structure)`: Traduce los datos en las columnas especificadas de una tabla.
+
+Requerimientos:
+- `translate`: Biblioteca de traducción para realizar traducciones automáticas.
+- Módulo `formato` para eliminar duplicados y dividir listas.
+"""
+
+from utilidades import frt
 from translate import Translator
+
 translator = Translator(from_lang="en", to_lang="es")
 
 
 def translate_phrase(frase):
     """
     Traduce una frase de un idioma a otro utilizando un traductor automatizado.
+
     Parámetros:
-   --frase (str): La frase que se desea traducir.
+    - frase (str): La frase que se desea traducir.
 
     Retorno:
     str: La traducción de la frase en el idioma de destino.
@@ -19,14 +35,12 @@ def translate_phrase(frase):
 
 
 def data_translate(data, columns, table_structure):
-
     """
     Traduce los datos de las columnas especificadas en una tabla, usando un traductor automatizado para las entradas de texto.
 
-    
     Parámetros:
-    --data (list of list): Lista de listas donde cada sublista representa una fila de datos.
-    --columns (list of str): Lista de nombres de columnas cuyas celdas deben ser traducidas.
+    - data (list of list): Lista de listas donde cada sublista representa una fila de datos.
+    - columns (list of str): Lista de nombres de columnas cuyas celdas deben ser traducidas.
 
     Retorno:
     list of list: Los datos con las celdas de las columnas especificadas traducidas.

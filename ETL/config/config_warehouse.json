@@ -317,27 +317,5 @@
                 }
             ]
         }
-    ],
-    "tables2": [
-        {
-            "name": "VDIM_EMPLOYEES",
-            "query": ""
-        },
-        {
-            "name": "VDIM_DATES",
-            "query": ""
-        },
-        {
-            "name": "VDIM_PRODUCTS",
-            "query": ""
-        },
-        {
-            "name": "VDIM_CUSTOMERS",
-            "query": ""
-        },
-        {
-            "name": "FACT_SALES",
-            "query": ""
-        }
     ]
 }
