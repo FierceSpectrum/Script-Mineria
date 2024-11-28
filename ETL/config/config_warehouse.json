@@ -200,8 +200,7 @@
                 },
                 {
                     "name": "UNITS_IN_STOCK",
-                    "type": "varchar",
-                    "length": 50,
+                    "type": "decimal",
                     "nullable": true
                 },
                 {
